@@ -267,9 +267,26 @@ h1 .thin{display:block; color:var(--text-mid); font-weight:600; font-size:.44em;
 
 /* ---------- 에필로그 / 연락처 ---------- */
 .outro{background:linear-gradient(180deg,transparent,rgba(240,180,41,.045))}
-.contact-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
-  padding:clamp(28px,4.5vw,48px); box-shadow:var(--shadow)}
-.contact-card h2{margin-bottom:14px}
+.contact-card{position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r-lg); padding:clamp(30px,5vw,58px); box-shadow:var(--shadow)}
+.contact-card > *{position:relative; z-index:1}
+.contact-card::before{content:""; position:absolute; top:0; left:0; right:0; height:1px; z-index:0;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent); opacity:.75}
+.contact-card::after{content:""; position:absolute; top:-46%; left:50%; width:76%; aspect-ratio:2; z-index:0;
+  transform:translateX(-50%); pointer-events:none; filter:blur(64px);
+  background:radial-gradient(ellipse, rgba(240,180,41,.18), transparent 70%)}
+.contact-card h2{margin-bottom:16px; max-width:20ch}
+
+/* 마무리 요약 칩 — Ch.04 수치를 그대로 다시 씁니다. */
+.recap{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
+.recap span{display:inline-flex; align-items:baseline; gap:8px; font-size:13.5px; color:var(--text-mid);
+  border:1px solid var(--line); background:rgba(255,255,255,.03); padding:10px 17px; border-radius:100px}
+.recap span b{font-size:16.5px; font-weight:800; color:var(--amber); letter-spacing:-.02em}
+.recap span:last-child b{color:var(--mint)}
+.sign{margin-top:36px; padding-top:24px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap;
+  gap:12px; align-items:baseline; justify-content:space-between; font-size:13px; color:var(--muted)}
+.sign b{font-size:15.5px; color:var(--text); font-weight:700; letter-spacing:-.025em}
+.clist:empty{display:none}
 .clist{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1px;
   background:var(--line); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden; margin-top:34px}
 .citem{background:var(--bg-soft); padding:20px 22px}
@@ -578,8 +595,11 @@ const TEXT = {
   ch5Lede : '개발 조직이 아니라 현장에 있어서 가능한 방식입니다. 문제를 발견한 사람이 그대로 만들고, 그대로 씁니다.',
   ch6Title: '쓰는 도구',
   ch6Lede : '회사가 이미 보유한 도구 안에서 해결하는 것을 원칙으로 합니다. 새 솔루션 도입 결재나 구독료 없이 다음 주부터 쓸 수 있어야 하기 때문입니다.',
-  ch7Title: '다음 문제를 찾고 있습니다',
-  ch7Lede : '반복되는 업무가 있는 곳이라면 어디든 같은 방식이 통합니다. 이야기를 나눠보고 싶으시면 아래로 연락 주세요.',
+  ch7Title: '반복은, 사람이 할 일이 아닙니다',
+  ch7Lede : '16개를 만들며 배운 것은 기술이 아니라 순서였습니다. 불편하다고 말하는 사람이 있고, 그것을 끝까지 고치는 사람이 있으면 조직은 바뀝니다. 저는 두 번째 역할을 계속하려 합니다. 지금도 다음 문제를 찾고 있습니다.',
+  /* 카드 맨 아래 서명 줄 */
+  signName: '양수길',
+  signRole: '경영지원팀 · 안전환경 담당',
   disclaimer: '본 페이지의 수치는 담당자 실측 및 업계 평균 단가를 바탕으로 한 추정치입니다. 사내 보안 정책에 따라 실제 화면·주소·고객사명은 공개하지 않으며, 카드 이미지는 실제 운영 화면을 재현한 것으로 사내 데이터를 포함하지 않습니다.',
 };
 
@@ -652,8 +672,8 @@ const STACK = [
 ];
 
 /* ── 11. 연락처 ────────────────────────────────────────────────────────── */
-/*  ※ 아래 value 를 채우면 자동으로 표시됩니다.
- *    비워두면 '준비 중' 회색 문구가 나옵니다.
+/*  ※ 아래 value 를 채우면 그 항목만 자동으로 표시됩니다.
+ *    지금처럼 전부 비어 있으면 연락처 블록 자체가 나오지 않습니다.
  *    link 에 주소를 넣으면 클릭 가능한 링크가 됩니다. (예: 'mailto:...', 'https://...')
  *    ⚠ 사내 이메일·사내 시스템 주소는 넣지 마세요. 개인 연락 수단만 사용하세요. */
 const CONTACT = [
@@ -681,7 +701,7 @@ const CONTACT = [
     <a href="#ch03"><b>03</b>실적</a>
     <a href="#ch04"><b>04</b>효과</a>
     <a href="#ch05"><b>05</b>일하는 방식</a>
-    <a href="#contact"><b>06</b>연락</a>
+    <a href="#contact"><b>06</b>마무리</a>
   </div>
 </header>
 
@@ -771,8 +791,10 @@ const CONTACT = [
       <div class="contact-card reveal">
         <div class="chapter"><span>EPILOGUE</span><hr></div>
         <h2 id="p7Title"></h2>
-        <p class="lede" id="p7Lede" style="margin-bottom:0"></p>
+        <p class="lede" id="p7Lede" style="margin-bottom:30px"></p>
+        <div class="recap" id="recap"></div>
         <div class="clist" id="contactList"></div>
+        <div class="sign" id="sign"></div>
       </div>
     </div>
   </section>
@@ -928,14 +950,30 @@ const CONTACT = [
       g.items.map(i => '<li>' + esc(i) + '</li>').join('') +
     '</ul></div>').join('');
 
-  /* ---------- 연락처 ---------- */
-  $('contactList').innerHTML = CONTACT.map(c => {
-    const v = (c.value || '').trim();
-    const body = !v ? '<span class="val empty">준비 중</span>'
-      : (c.link ? '<span class="val"><a href="' + esc(c.link) + '">' + esc(v) + '</a></span>'
-                : '<span class="val">' + esc(v) + '</span>');
-    return '<div class="citem"><div class="lb">' + esc(c.lb) + '</div>' + body + '</div>';
-  }).join('');
+  /* ---------- 에필로그 요약 칩 · 서명 ---------- */
+  $('recap').innerHTML = [
+    ['운영 중인 시스템', nf(sysCount), '개'],
+    ['연간 절감 업무시간', nf(totalHours), '시간'],
+    ['외주 환산 구축비', estEok, '억 원'],
+    ['실제 지출', '0', '원'],
+  ].map(([k, v, u]) => '<span>' + esc(k) + '<b>' + v + '</b>' + esc(u) + '</span>').join('');
+
+  $('sign').innerHTML =
+    '<span><b>' + esc(T.signName) + '</b> · ' + esc(T.signRole) + '</span>' +
+    '<span>마지막 업데이트 ' + new Date().getFullYear() + '</span>';
+
+  /* ---------- 연락처 ----------
+     CONTACT 에 값이 하나도 없으면 이 블록은 아예 그려지지 않습니다.
+     값을 채우면 채운 항목만 자동으로 나타납니다. */
+  $('contactList').innerHTML = CONTACT
+    .filter(c => (c.value || '').trim())
+    .map(c => {
+      const v = c.value.trim();
+      const body = c.link ? '<span class="val"><a href="' + esc(c.link) + '">' + esc(v) + '</a></span>'
+                          : '<span class="val">' + esc(v) + '</span>';
+      return '<div class="citem"><div class="lb">' + esc(c.lb) + '</div>' + body + '</div>';
+    }).join('');
+  if ($('contactList').innerHTML) $('contactList').style.marginTop = '34px';
 
   /* ---------- 스크롤 등장 · 숫자 카운트 · 막대 채우기 ---------- */
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
