@@ -36,6 +36,8 @@ body{
   font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
   font-size:16px; line-height:1.7; letter-spacing:-.01em;
   -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  /* 한글은 어절 단위로만 줄바꿈 (단어 중간에서 끊기지 않게) */
+  word-break:keep-all; overflow-wrap:break-word;
 }
 img{max-width:100%; display:block}
 a{color:inherit}
@@ -57,7 +59,7 @@ body::before{
   object-fit:cover; opacity:0; transition:opacity 1.4s ease}
 .bgmedia video.on{opacity:1}
 .bgmedia::after{content:""; position:absolute; inset:0; z-index:2;
-  background:linear-gradient(180deg,rgba(14,17,20,.60) 0%,rgba(14,17,20,.80) 42%,rgba(14,17,20,.94) 100%)}
+  background:linear-gradient(180deg,rgba(14,17,20,.40) 0%,rgba(14,17,20,.66) 42%,rgba(14,17,20,.90) 100%)}
 
 /* 배경 자동화 네트워크 캔버스 */
 #bgfx{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.62;
