@@ -1,0 +1,75 @@
+# 양수길 — 포트폴리오 홈페이지
+
+사내 업무 자동화 실적을 소개하는 개인 포트폴리오. **`index.html` 파일 하나로 동작**합니다.
+(외부 CSS/JS 파일 없음 · 폰트만 CDN 사용)
+
+## 1. 내용 수정하기
+
+`index.html` 을 열면 `<head>` 안쪽에 데이터 상수 블록이 있습니다. **이 블록만 고치면 됩니다.**
+아래쪽 렌더링 코드는 건드릴 필요가 없습니다.
+
+| 상수 | 바뀌는 곳 |
+|---|---|
+| `PROFILE` | 첫 화면(히어로)의 이름·소개 문구·태그 |
+| `CATEGORIES` | 프로젝트 필터 탭 |
+| `projects` | **프로젝트 카드 (여기에 객체를 추가하면 카드가 자동으로 늘어남)** |
+| `TEXT` | 각 챕터의 제목과 설명 문구 |
+| `PROBLEMS` | Ch.01 문제 카드 3개 |
+| `TIMELINE` | Ch.02 확산 타임라인 |
+| `BARS` / `NOTES` | Ch.04 Before→After 막대 / 산출 근거 각주 |
+| `WAYS` | Ch.05 일하는 방식 4단계 |
+| `STACK` | 기술 스택 |
+| `CONTACT` | 연락처 (지금은 비어 있음 → 값을 채우면 자동 표시) |
+
+### 프로젝트 카드 추가
+`projects` 배열에서 객체 하나를 통째로 복사해 붙여넣고 값만 바꾸면 됩니다.
+배열 순서 = 화면 표시 순서. 필터 탭의 개수와 Ch.04 합계(절감 시간·환산 구축비)는
+`hours` / `est` 값에서 **자동 계산**됩니다.
+
+### 스크린샷 교체
+카드 이미지는 지금 파일이 없어 자동으로 placeholder가 표시됩니다.
+`assets/shots/` 폴더에 `projects` 의 `img` 경로와 같은 이름으로 이미지를 넣으면
+코드 수정 없이 바로 반영됩니다. (권장 비율 **16:10**, 예: 1280×800)
+
+### 연락처 채우기
+`CONTACT` 배열의 `value` 와 `link` 를 채우면 자동으로 표시됩니다. 비워두면 "준비 중"으로 보입니다.
+
+## 2. 보안 원칙
+
+이 저장소는 공개됩니다. 아래는 **절대 넣지 마세요.**
+
+- 관리자 계정 / 비밀번호
+- Apps Script 배포 URL, 실제 앱 주소
+- 사내 IP · 네트워크 공유폴더 경로
+- 사내 이메일 주소
+- 고객사 실명 → `국내 대형 배터리 제조사` 로만 표기
+
+각 카드는 실제 링크 대신 `🔒 사내 운영 중 (비공개)` 뱃지로 표시됩니다.
+
+## 3. GitHub Pages 배포
+
+이 파일들을 `sugilyang.github.io` 저장소의 **루트**에 올리면 `https://sugilyang.github.io` 로 열립니다.
+
+```bash
+# 새 저장소(sugilyang.github.io)를 만든 뒤
+git clone https://github.com/SugilYang/sugilyang.github.io.git
+cd sugilyang.github.io
+
+# 이 저장소의 index.html, assets/, .nojekyll 을 복사해 넣고
+git add .
+git commit -m "포트폴리오 홈페이지 추가"
+git push origin main
+```
+
+저장소 **Settings → Pages → Source: Deploy from a branch → main / (root)** 로 설정하면 됩니다.
+
+기존 하위 저장소(`/loto`, `/gps` 등)는 각각 별도 저장소의 Pages로 서비스되므로
+루트 저장소에 이 파일을 올려도 **경로가 겹치지 않습니다.**
+단, `sugilyang.github.io` 저장소 안에 `loto/`, `gps/` 같은 **같은 이름의 폴더를 만들지는 마세요.**
+(루트 저장소의 폴더가 하위 저장소 Pages보다 우선하여 덮어씁니다.)
+
+## 4. 수치에 대하여
+
+Ch.04 의 절감 시간·환산 구축비는 담당자 실측과 국내 개발 외주 플랫폼의 공개 평균 단가를 근거로 한
+**추정치**이며, 페이지 안에 산출 근거를 함께 표기했습니다. 실제 값이 확인되면
+`projects` 의 `hours` / `est`, `BARS`, `NOTES` 를 수정하세요.
