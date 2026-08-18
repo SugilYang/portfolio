@@ -119,6 +119,49 @@ h2{font-size:clamp(28px,4.6vw,50px); line-height:1.24; letter-spacing:-.04em; ma
 .lede em{font-style:normal; color:var(--text); font-weight:700;
   background:linear-gradient(transparent 62%, rgba(44,107,255,.22) 0)}
 
+/* ---------- 섹션 영상 밴드 (전면 폭) ---------- */
+.band{position:relative; width:100vw; margin-left:calc(50% - 50vw); margin-bottom:clamp(56px,7vw,96px);
+  height:clamp(300px,44vw,520px); overflow:hidden; background:var(--surface-2);
+  display:flex; align-items:center}
+.band video,.band .poster{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.band video{opacity:0; transition:opacity 1.1s ease; z-index:1}
+.band video.on{opacity:1}
+.band .poster{z-index:0}
+.band::after{content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(100deg, rgba(245,248,253,.96) 0%, rgba(245,248,253,.82) 34%,
+             rgba(245,248,253,.34) 62%, rgba(245,248,253,.62) 100%)}
+.band-in{position:relative; z-index:3; width:min(1180px,100%); margin-inline:auto; padding-inline:var(--pad)}
+.band-k{display:inline-block; font-family:var(--mono); font-size:12px; letter-spacing:.2em; font-weight:700;
+  margin-bottom:16px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+.band h3{font-size:clamp(30px,5.6vw,68px); line-height:1.1; letter-spacing:-.05em; font-weight:800;
+  margin:0 0 16px; max-width:16ch}
+.band p{font-size:clamp(14px,1.6vw,18px); color:var(--text-2); margin:0; max-width:44ch; font-weight:600}
+
+/* ---------- 키네틱 타이포 : 단어가 마스크에서 올라옵니다 ---------- */
+.w{display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.06em; margin-bottom:-.06em}
+.w > i{display:inline-block; font-style:inherit; font-weight:inherit;
+  transform:translateY(115%); opacity:0;
+  transition:transform .95s cubic-bezier(.16,.84,.34,1) var(--d,0ms), opacity .7s ease var(--d,0ms)}
+.in .w > i{transform:none; opacity:1}
+@media (prefers-reduced-motion:reduce){.w > i{transform:none; opacity:1; transition:none}}
+
+/* ---------- 설명 글: 색 띠가 훑고 지나가며 나타납니다 ---------- */
+.wipe{position:relative}
+.wipe > *,.wipe{--wd:0ms}
+.wipe.tx{opacity:0}
+.wipe.tx.in,.in .wipe.tx{animation:wipeText 1.1s cubic-bezier(.76,0,.24,1) var(--wd) forwards}
+.wipe::after{content:""; position:absolute; inset:-2px -4px; background:var(--grad); z-index:2;
+  transform:scaleX(0); transform-origin:left center; pointer-events:none; border-radius:4px}
+.wipe.in::after,.in .wipe::after{animation:wipeBar 1.1s cubic-bezier(.76,0,.24,1) var(--wd) forwards}
+@keyframes wipeBar{0%{transform:scaleX(0); transform-origin:left center}
+  46%{transform:scaleX(1); transform-origin:left center}
+  47%{transform:scaleX(1); transform-origin:right center}
+  100%{transform:scaleX(0); transform-origin:right center}}
+@keyframes wipeText{0%,46%{opacity:0}47%,100%{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .wipe.tx{opacity:1} .wipe.tx.in,.in .wipe.tx,.wipe.in::after,.in .wipe::after{animation:none}
+  .wipe::after{display:none}}
+
 /* 등장 효과 */
 .reveal{opacity:0; transform:translateY(30px) scale(.985); filter:blur(6px);
   transition:opacity .85s cubic-bezier(.16,.84,.34,1), transform .85s cubic-bezier(.16,.84,.34,1), filter .85s ease}
@@ -649,6 +692,19 @@ const projects = [
   },
 ];
 
+/* ── 3-2. 섹션 영상 밴드 ──────────────────────────────────────────────────
+   각 파트 앞에 전면 폭으로 깔리는 영상 구간입니다.
+   key 는 assets/sec/ 안의 파일 이름과 같아야 합니다. (key.jpg + key.webm)
+   다른 영상으로 바꾸려면 같은 이름으로 덮어쓰거나, key 를 새 파일명으로 고치세요.
+   권장 규격: 960×540, 8초 내외 무한 반복, webm(VP8) 300KB 이하. */
+const BANDS = {
+  problem: { k: 'CH. 01 — 문제',  h: '종이와 엑셀이 만든 하루', p: '매일 같은 자리에서 시간이 샜습니다.' },
+  spread : { k: 'CH. 02 — 확산',  h: '하나에서 열여섯으로',     p: '요청은 옆 부서에서 먼저 왔습니다.' },
+  effect : { k: 'CH. 04 — 효과',  h: '60분이 5분이 되는 일',    p: '숫자로 남지 않으면 자동화가 아닙니다.' },
+  process: { k: 'CH. 05 — 방식',  h: '발견하고, 만들고, 고칩니다', p: '네 단계가 멈추지 않고 돌아갑니다.' },
+  tools  : { k: 'TOOLS — 도구',   h: '회사에 이미 있는 것으로',   p: '새 예산 없이, 다음 주부터 씁니다.' },
+};
+
 /* ── 4. 섹션별 문구 ─────────────────────────────────────────────────────── */
 /* <em>로 감싼 글자는 노란 형광펜 효과가 적용됩니다. */
 const TEXT = {
@@ -779,8 +835,8 @@ const CONTACT = [
   <section class="hero" id="hero">
     <div class="wrap" id="heroInner">
       <div class="eyebrow reveal"><i></i><span id="roleLine"></span></div>
-      <h1 class="reveal" id="heroTitle"></h1>
-      <p class="hero-sub reveal" id="heroSub"></p>
+      <h1 class="reveal kin" id="heroTitle"></h1>
+      <p class="hero-sub reveal wipe tx" id="heroSub"></p>
       <div class="who reveal" id="whoTags"></div>
       <div class="figures reveal" id="figures"></div>
       <a class="scroll-cue reveal" href="#ch01"><span class="bar"></span>SCROLL — 이야기의 시작</a>
@@ -788,19 +844,19 @@ const CONTACT = [
   </section>
 
   <section id="ch01">
+      <div class="band reveal" data-band="problem"></div>
     <div class="wrap">
-      <div class="chapter reveal"><span>CH. 01</span><hr></div>
-      <h2 class="reveal" id="p1Title"></h2>
-      <p class="lede reveal" id="p1Lede"></p>
+      <h2 class="reveal kin" id="p1Title"></h2>
+      <p class="lede reveal wipe tx" id="p1Lede"></p>
       <div class="problems" id="problems"></div>
     </div>
   </section>
 
   <section id="ch02">
+      <div class="band reveal" data-band="spread"></div>
     <div class="wrap">
-      <div class="chapter reveal"><span>CH. 02</span><hr></div>
-      <h2 class="reveal" id="p2Title"></h2>
-      <p class="lede reveal" id="p2Lede"></p>
+      <h2 class="reveal kin" id="p2Title"></h2>
+      <p class="lede reveal wipe tx" id="p2Lede"></p>
       <div class="timeline" id="timeline">
         <div class="tl-track"><div class="tl-fill" id="tlFill"></div></div>
       </div>
@@ -810,18 +866,18 @@ const CONTACT = [
   <section id="ch03">
     <div class="wrap">
       <div class="chapter reveal"><span>CH. 03</span><hr></div>
-      <h2 class="reveal" id="p3Title"></h2>
-      <p class="lede reveal" id="p3Lede"></p>
+      <h2 class="reveal kin" id="p3Title"></h2>
+      <p class="lede reveal wipe tx" id="p3Lede"></p>
       <div class="filters reveal" id="filters"></div>
       <div class="grid" id="grid"></div>
     </div>
   </section>
 
   <section id="ch04">
+      <div class="band reveal" data-band="effect"></div>
     <div class="wrap">
-      <div class="chapter reveal"><span>CH. 04</span><hr></div>
-      <h2 class="reveal" id="p4Title"></h2>
-      <p class="lede reveal" id="p4Lede"></p>
+      <h2 class="reveal kin" id="p4Title"></h2>
+      <p class="lede reveal wipe tx" id="p4Lede"></p>
       <div class="impact-wrap">
         <div class="panel reveal"><h3>업무 시간 비교 (Before → After)</h3><div id="baList"></div></div>
         <div>
@@ -833,19 +889,19 @@ const CONTACT = [
   </section>
 
   <section id="ch05">
+      <div class="band reveal" data-band="process"></div>
     <div class="wrap">
-      <div class="chapter reveal"><span>CH. 05</span><hr></div>
-      <h2 class="reveal" id="p5Title"></h2>
-      <p class="lede reveal" id="p5Lede"></p>
+      <h2 class="reveal kin" id="p5Title"></h2>
+      <p class="lede reveal wipe tx" id="p5Lede"></p>
       <div class="ways" id="ways"></div>
     </div>
   </section>
 
   <section id="stack">
+      <div class="band reveal" data-band="tools"></div>
     <div class="wrap">
-      <div class="chapter reveal"><span>TOOLS</span><hr></div>
-      <h2 class="reveal" id="p6Title"></h2>
-      <p class="lede reveal" id="p6Lede"></p>
+      <h2 class="reveal kin" id="p6Title"></h2>
+      <p class="lede reveal wipe tx" id="p6Lede"></p>
     </div>
     <div class="marquee reveal"><div class="marquee-in" id="marquee"></div></div>
     <div class="wrap"><div class="stack-grid" id="stackGrid"></div></div>
@@ -1034,6 +1090,61 @@ const CONTACT = [
   }).join('');
   if ($('contactList').innerHTML) $('contactList').style.marginTop = '34px';
 
+  /* ---------- 섹션 영상 밴드 ---------- */
+  document.querySelectorAll('.band').forEach(el => {
+    const b = BANDS[el.dataset.band]; if (!b) return;
+    el.innerHTML =
+      '<img class="poster" src="assets/sec/' + el.dataset.band + '.jpg" alt="" loading="lazy">' +
+      '<video muted loop playsinline preload="none" data-src="assets/sec/' + el.dataset.band + '.webm"></video>' +
+      '<div class="band-in"><span class="band-k">' + esc(b.k) + '</span>' +
+      '<h3 class="kin">' + esc(b.h) + '</h3>' +
+      '<p class="wipe tx">' + esc(b.p) + '</p></div>';
+  });
+  /* 화면에 가까워질 때만 영상을 내려받습니다. */
+  const vio = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    const v = en.target.querySelector('video');
+    vio.unobserve(en.target);
+    if (!v || reduce || innerWidth < 720) return;
+    const c = navigator.connection || {};
+    if (c.saveData === true || /(^|-)2g$/.test(c.effectiveType || '')) return;
+    v.src = v.dataset.src;
+    const pr = v.play();
+    if (pr && pr.then) pr.then(() => v.classList.add('on')).catch(() => {});
+    else v.classList.add('on');
+  }), { rootMargin: '400px 0px' });
+  document.querySelectorAll('.band').forEach(el => vio.observe(el));
+
+  /* ---------- 키네틱 타이포: 제목을 단어 단위로 쪼갭니다 ---------- */
+  function splitWords(el){
+    if (!el || el.dataset.split) return;
+    el.dataset.split = '1';
+    let idx = 0;
+    const walk = node => {
+      [...node.childNodes].forEach(ch => {
+        if (ch.nodeType === 3){
+          const parts = ch.textContent.split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach(t => {
+            if (!t) return;
+            if (/^\s+$/.test(t)){ frag.appendChild(document.createTextNode(t)); return; }
+            const w = document.createElement('span'); w.className = 'w';
+            const i = document.createElement('i');
+            i.style.setProperty('--d', (idx++ * 55) + 'ms');
+            i.textContent = t; w.appendChild(i); frag.appendChild(w);
+          });
+          node.replaceChild(frag, ch);
+        } else if (ch.nodeType === 1 && !ch.classList.contains('thin') && !ch.classList.contains('w')){
+          walk(ch);
+        }
+      });
+    };
+    walk(el);
+  }
+  document.querySelectorAll('.kin').forEach(splitWords);
+  /* 설명 글은 제목보다 살짝 늦게 훑고 지나갑니다. */
+  document.querySelectorAll('.wipe').forEach(el => el.style.setProperty('--wd', '220ms'));
+
   /* ---------- 숫자 카운트업 ---------- */
   function countUp(el){
     const target = parseFloat(el.dataset.count), dec = +el.dataset.dec || 0;
@@ -1048,17 +1159,21 @@ const CONTACT = [
     })(t0);
   }
 
-  /* ---------- 등장 관찰 ---------- */
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      en.target.classList.add('in');
-      en.target.querySelectorAll('[data-count]').forEach(countUp);
-      en.target.querySelectorAll('.fill').forEach(f => { f.style.width = f.dataset.w + '%'; });
-      io.unobserve(en.target);
+  /* ---------- 등장 처리 ----------
+     화면에 들어온 요소를 순서대로 켭니다. 빠르게 스크롤하거나 목차로 건너뛰어도
+     지나친 요소가 그대로 숨겨지지 않도록, 스크롤할 때마다 남은 목록을 훑습니다. */
+  let pending = [...document.querySelectorAll('.reveal')];
+  function revealSweep(){
+    if (!pending.length) return;
+    const line = innerHeight * .9;
+    pending = pending.filter(el => {
+      if (el.getBoundingClientRect().top > line) return true;
+      el.classList.add('in');
+      el.querySelectorAll('[data-count]').forEach(countUp);
+      el.querySelectorAll('.fill').forEach(f => { f.style.width = f.dataset.w + '%'; });
+      return false;
     });
-  }, { threshold: .15, rootMargin: '0px 0px -6% 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
 
   /* ---------- 섹션 인디케이터 ---------- */
   const SECTIONS = [['hero','프롤로그'],['ch01','01 문제'],['ch02','02 확산'],['ch03','03 실적'],
@@ -1130,6 +1245,7 @@ const CONTACT = [
     }
     [...$('dots').children].forEach(b => b.classList.toggle('on', b.dataset.go === cur));
     navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+    revealSweep();
     ticking = false;
   }
   addEventListener('scroll', () => {
