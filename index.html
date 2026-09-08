@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>양수길 — 문제를 말하면, 시스템이 됩니다</title>
-<meta name="description" content="AI 시민개발자 양수길. 비개발 직군으로 현장의 반복을 AI와 함께 직접 시스템으로 만들어 사내 16개를 운영 중입니다.">
+<meta name="description" content="AI 시민개발자 양수길. 비개발 직군으로 현장의 반복을 직접 공부하고 AI와 함께 시스템으로 만들어 사내 17개를 운영 중입니다.">
 <meta name="author" content="양수길">
 <meta property="og:type" content="website">
 <meta property="og:title" content="양수길 — 문제를 말하면, 시스템이 됩니다">
-<meta property="og:description" content="AI 시민개발자. 사내 업무 시스템 16개 직접 구축·운영, 연간 약 1,160시간 절감, 구축비 0원.">
+<meta property="og:description" content="AI 시민개발자. 사내 업무 시스템 17개 직접 구축·운영, 연간 약 1,200시간 절감, 구축비 0원.">
 <meta property="og:image" content="assets/bg/hero.jpg">
 <meta name="theme-color" content="#FAFBFF">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234F6BFF'/><stop offset='.5' stop-color='%238B5CF6'/><stop offset='1' stop-color='%2322D3EE'/></linearGradient></defs><rect width='32' height='32' rx='9' fill='url(%23g)'/><path d='M9 21l5-10 4 7 2-3 3 6z' fill='white'/></svg>">
@@ -198,7 +198,8 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .tile{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:26px; position:relative;
   overflow:hidden; box-shadow:var(--sh-1); transition:transform .45s cubic-bezier(.2,.8,.3,1), box-shadow .45s}
 .tile:hover{transform:translateY(-6px); box-shadow:var(--sh-2)}
-.tile .lb{font-family:var(--mono); font-size:11px; letter-spacing:.16em; font-weight:700; color:var(--muted); margin-bottom:14px}
+.tile .lb{font-family:var(--mono); font-size:11px; letter-spacing:.06em; font-weight:700; color:var(--muted); margin-bottom:14px}
+.tile .lb:lang(ko){letter-spacing:.03em}
 .t-profile{grid-column:span 3; display:flex; gap:22px; align-items:flex-start}
 .t-profile .av{flex:none; width:84px; height:84px; border-radius:26px; background:var(--grad); display:grid; place-items:center;
   color:#fff; font-size:32px; font-weight:800; box-shadow:0 18px 34px -16px rgba(79,107,255,.9); position:relative}
@@ -213,9 +214,10 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .t-nums .n{font-size:clamp(26px,3vw,36px); font-weight:800; letter-spacing:-.05em; line-height:1.05; display:flex; align-items:baseline; gap:3px}
 .t-nums .n small{font-size:.42em; color:var(--muted); font-weight:700}
 .t-nums .k{font-size:12px; color:var(--muted); margin-top:7px}
-.t-ai{grid-column:span 4}
-.flow{display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:12px; align-items:center; margin-top:6px}
-.flow .fb{background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r-md); padding:14px 16px}
+.t-ai{grid-column:span 6}
+.flow{display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr; gap:10px; align-items:stretch; margin-top:6px}
+.flow .fb{background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r-md); padding:14px 15px}
+.flow .ar{align-self:center}
 .flow .fb b{display:block; font-size:13.5px; margin-bottom:3px}
 .flow .fb span{font-size:12px; color:var(--muted); line-height:1.5; display:block}
 .flow .fb.ai{background:linear-gradient(135deg,rgba(79,107,255,.10),rgba(139,92,246,.10)); border-color:rgba(139,92,246,.3)}
@@ -223,10 +225,16 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .flow .ar::before{content:"→"}
 @media (max-width:760px){.flow{grid-template-columns:1fr} .flow .ar::before{content:"↓"} .flow .ar{text-align:center}}
 .t-sites{grid-column:span 2}
+.t-learn{grid-column:span 3}
+.t-learn h3{font-size:20px; margin:0 0 8px; letter-spacing:-.04em; line-height:1.3}
+.t-learn p{margin:0 0 14px; font-size:13.5px; color:var(--text-2); line-height:1.7}
+.t-learn ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px}
+.t-learn li{font-size:13px; font-weight:600; color:var(--text-2); padding:8px 12px; background:var(--bg-2); border-radius:9px; display:flex; gap:9px; align-items:center}
+.t-learn li::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--grad); flex:none}
 .t-sites ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
 .t-sites li{display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:600; padding:9px 12px; background:var(--bg-2); border-radius:10px}
 .t-sites li em{font-style:normal; margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--muted); font-weight:600}
-.t-stack{grid-column:span 3}
+.t-stack{grid-column:span 4}
 .t-stack ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:7px}
 .t-stack li{font-size:12.5px; font-weight:600; color:var(--text-2); background:var(--bg-2); border:1px solid var(--line); padding:6px 11px; border-radius:8px}
 .t-proof{grid-column:span 3; background:var(--text); color:#fff; border-color:transparent}
@@ -235,7 +243,7 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .t-proof p{margin:0; font-size:13.5px; color:rgba(255,255,255,.66); line-height:1.75}
 .t-proof::after{content:""; position:absolute; right:-30%; top:-40%; width:80%; aspect-ratio:1; border-radius:50%;
   background:radial-gradient(circle,rgba(79,107,255,.6),transparent 65%); filter:blur(40px)}
-@media (max-width:1000px){.t-profile,.t-nums,.t-ai,.t-stack,.t-proof{grid-column:span 6} .t-sites{grid-column:span 6}}
+@media (max-width:1000px){.t-profile,.t-nums,.t-ai,.t-stack,.t-proof,.t-learn,.t-sites{grid-column:span 6}}
 
 /* ---------- 섹션 영상 밴드 ---------- */
 .band{position:relative; width:100vw; margin-left:calc(50% - 50vw); margin-bottom:clamp(56px,7vw,96px);
@@ -288,7 +296,7 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 @media (max-width:1020px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:660px){.grid{grid-template-columns:1fr}}
 .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column;
-  box-shadow:var(--sh-1); position:relative; transform-style:preserve-3d; will-change:transform;
+  box-shadow:var(--sh-1); position:relative;
   transition:box-shadow .45s, border-color .45s, transform .5s cubic-bezier(.2,.8,.3,1)}
 .card:hover{box-shadow:var(--sh-2); border-color:var(--line-2)}
 .card.hide{display:none}
@@ -298,7 +306,9 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .shot{aspect-ratio:16/10; background:var(--bg-2); position:relative; overflow:hidden; border-bottom:1px solid var(--line)}
 .shot img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; transition:transform .7s cubic-bezier(.2,.8,.3,1)}
 .card:hover .shot img{transform:scale(1.06)}
-.shot .ph{position:absolute; inset:0; display:grid; place-items:center; color:var(--muted); font-size:11.5px; font-family:var(--mono)}
+.shot .ph{position:absolute; inset:0; background:linear-gradient(100deg,var(--bg-2) 30%,#fff 50%,var(--bg-2) 70%);
+  background-size:200% 100%; animation:shimmer 1.6s linear infinite}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-80% 0}}
 .lock{position:absolute; top:13px; right:13px; z-index:2; font-size:11.5px; font-weight:700; background:rgba(255,255,255,.92);
   border:1px solid var(--line); color:var(--text-2); padding:6px 12px; border-radius:100px; backdrop-filter:blur(8px); box-shadow:var(--sh-1)}
 .lock.soon{background:var(--grad); border-color:transparent; color:#fff}
@@ -476,15 +486,15 @@ footer{border-top:1px solid var(--line); padding:38px 0 52px; color:var(--muted)
 const PROFILE = {
   name: '양수길',
   role: 'AI 시민개발자 · Citizen Developer',
-  org : '이차전지 자동화 장비 제조사 · 경영지원팀 안전환경 담당',
+  org : '경영관리팀 · 환경안전 담당',
   // 첫 화면 큰 제목. 앞부분은 고정, 뒷부분은 아래 rotate 문구가 타이핑되며 바뀝니다.
   titleFixed: '문제를 말하면,',
   rotate: ['시스템이 됩니다.', '앱이 됩니다.', '자동화가 됩니다.', '60분이 5분이 됩니다.'],
-  sub: '개발자가 아닙니다. 안전환경 담당으로 현장을 돌며 발견한 반복을, AI와 함께 직접 시스템으로 만들어 운영합니다. 외주 없이, 추가 비용 없이, 지금도 16개가 돌아갑니다.',
+  sub: '개발자가 아닙니다. 환경안전 담당으로 현장을 돌며 발견한 반복을, 직접 공부해 익힌 기술 위에 AI를 더해 시스템으로 만들어 운영합니다. 외주 없이, 추가 비용 없이, 지금도 17개가 돌아갑니다.',
   // 첫 화면 하단 태그
-  tags: ['비개발 직군', 'AI 협업 설계', '사내 시스템 16개 운영', '해외 4개국 사이트 지원', '구축비 0원'],
+  tags: ['비개발 직군', '독학으로 익힌 개발', 'AI 협업', '사내 시스템 17개 운영', '해외 4개국 사이트 지원', '구축비 0원'],
   // 한 줄 소개 (벤토 프로필 카드)
-  bio: '현장의 문제를 발견하고, AI와 함께 직접 해결하는 사람. 전사 안전관리 디지털 전환을 주도했고, 외주·SaaS 대비 절감 효과를 경영진에 직접 보고했습니다.',
+  bio: '현장의 문제를 발견하고, 직접 배워서 해결하는 사람. 웹 · Apps Script · Python · API 연동을 문서와 실습으로 익혔고, 그 위에 AI를 협업 도구로 씁니다. 전사 안전관리 디지털 전환을 주도했고, 외주 · SaaS 대비 절감 효과를 경영진에 직접 보고했습니다.',
 };
 
 /* ── 1-2. 첫 화면 프롬프트 데모 ─────────────────────────────────────────────
@@ -513,7 +523,7 @@ const CHAT = {
     { who: 'ai', text: '역할별 화면 2종과 다우오피스 OpenAPI 연동 코드를 작성했습니다. 배포 전에 확인할 테스트 항목 6개를 정리했습니다.' },
     { who: 'me', text: '현장 테스트 끝. 반납 알림 문구만 바꿔서 오늘 배포했어.' },
   ],
-  result: { h: '계측기 교정관리 시스템 · 운영 중', p: '설계 초안과 코드는 AI가, 요구사항 · 검증 · 배포 · 운영은 제가. 구축 3일, 교정 만료 누락 0건.' },
+  result: { h: '계측기 교정관리 시스템 · 운영 중', p: '요구사항 · 데이터 구조 · 권한 설계는 제가, 코드 초안은 AI와 함께, 검증 · 배포 · 운영은 제가. 구축 3일, 교정 만료 누락 0건.' },
 };
 
 /* 카드 이미지에 '재현 화면' 표시를 붙일지 여부.
@@ -728,11 +738,11 @@ const projects = [
     title: '내방객 방문 신청 시스템',
     vis: 'flow',
     desc: '사전 방문 신청부터 담당자 승인, 모바일 QR 출입증 발급, 안전교육 동의, 차량 등록까지 한 흐름으로 처리합니다. 방문 이력이 자동으로 남습니다.',
-    impact: '도입 예정 — 방문객 대장 수기 작성과 정문 대기 시간을 없애고, 안전교육 동의 누락을 원천 차단하는 것이 목표입니다.',
-    hours: 0,
+    impact: '방문객 대장 수기 작성과 정문 대기를 없앴습니다. 승인 즉시 QR 출입증이 발송되고, 안전교육 동의 누락이 원천 차단됩니다.',
+    hours: 40,
     est: 2000,
     stack: ['HTML', 'Apps Script', 'Sheets', 'QR'],
-    status: 'soon',
+    status: 'live',
     img: 'assets/shots/visitor.jpg',
   },
 ];
@@ -746,7 +756,7 @@ const BANDS = {
   problem: { k: 'CH. 01 — 문제',  h: '종이와 엑셀이 만든 하루', p: '매일 같은 자리에서 시간이 샜습니다.' },
   spread : { k: 'CH. 02 — 확산',  h: '하나에서 열여섯으로',     p: '요청은 옆 부서에서 먼저 왔습니다.' },
   effect : { k: 'CH. 04 — 효과',  h: '60분이 5분이 되는 일',    p: '숫자로 남지 않으면 자동화가 아닙니다.' },
-  process: { k: 'CH. 05 — 방식',  h: '말하고, 만들고, 검증합니다', p: 'AI가 초안을, 제가 판단을. 네 단계가 멈추지 않습니다.' },
+  process: { k: 'CH. 05 — 방식',  h: '배우고, 설계하고, 검증합니다', p: 'AI는 도구. 구조와 판단은 제가. 네 단계가 멈추지 않습니다.' },
   tools  : { k: 'TOOLS — 도구',   h: '회사에 이미 있는 것으로',   p: '새 예산 없이, 다음 주부터 씁니다.' },
 };
 
@@ -754,7 +764,7 @@ const BANDS = {
 /* <em>로 감싼 글자는 노란 형광펜 효과가 적용됩니다. */
 const TEXT = {
   ch0Title: '한눈에 보는 양수길',
-  ch0Lede : '개발 조직 없이, 예산 없이, 현장 담당자 한 사람이 <em>AI와 함께</em> 만든 결과입니다. 숫자는 전부 실제 운영 중인 시스템에서 나왔습니다.',
+  ch0Lede : '개발 조직 없이, 예산 없이, 현장 담당자 한 사람이 <em>직접 배워 가며</em> 만든 결과입니다. AI는 도구였지 지름길이 아니었습니다. 숫자는 전부 실제 운영 중인 시스템에서 나왔습니다.',
   ch1Title: '자동화 이전, 우리 회사의 하루',
   ch1Lede : '대단한 문제가 아니었습니다. 어느 회사에나 있는, 그래서 아무도 손대지 않던 <em>반복</em>이었습니다. 하루 한 시간씩, 매주 열두 시간씩 조용히 새어 나가던 시간입니다.',
   ch2Title: '하나를 바꾸자, 다음이 보였습니다',
@@ -764,14 +774,14 @@ const TEXT = {
   ch4Title: '그래서, 얼마나 줄었나',
   ch4Lede : '자동화의 가치는 결국 <em>시간과 돈</em>으로 환산됩니다. 아래 수치는 반복 주기와 회당 소요시간으로 계산한 추정치이며, 산출 근거를 함께 공개합니다.',
   ch5Title: 'AI와 일하는 방식',
-  ch5Lede : '개발 조직이 아니라 현장에 있어서 가능한 방식입니다. 문제를 발견한 사람이 AI에게 설명하고, 나온 초안을 직접 검증해 현장에 붙입니다. 설계와 코드는 AI가, 판단과 책임은 제가.',
+  ch5Lede : '개발 조직이 아니라 현장에 있어서 가능한 방식입니다. 문제를 발견한 사람이 구조를 공부해 설계하고, AI와 코드를 만들고, 직접 검증해 현장에 붙입니다. 설계와 판단과 책임은 제가, 코드 초안은 AI와 함께.',
   ch6Title: '쓰는 도구',
   ch6Lede : '회사가 이미 보유한 도구 안에서 해결하는 것을 원칙으로 합니다. 새 솔루션 도입 결재나 구독료 없이 다음 주부터 쓸 수 있어야 하기 때문입니다.',
   ch7Title: '반복은, 사람이 할 일이 아닙니다',
-  ch7Lede : '16개를 만들며 배운 것은 기술이 아니라 순서였습니다. 불편하다고 말하는 사람이 있고, 그것을 끝까지 고치는 사람이 있으면 조직은 바뀝니다. 저는 두 번째 역할을 계속하려 합니다. 지금도 다음 문제를 찾고 있습니다.',
+  ch7Lede : '17개를 만들며 배운 것은 기술이 아니라 순서였습니다. 불편하다고 말하는 사람이 있고, 그것을 끝까지 고치는 사람이 있으면 조직은 바뀝니다. 저는 두 번째 역할을 계속하려 합니다. 지금도 다음 문제를 찾고 있습니다.',
   /* 카드 맨 아래 서명 줄 */
   signName: '양수길',
-  signRole: '경영지원팀 · 안전환경 담당',
+  signRole: '경영관리팀 · 환경안전 담당',
   disclaimer: '본 페이지의 수치는 담당자 실측 및 업계 평균 단가를 바탕으로 한 추정치입니다. 사내 보안 정책에 따라 실제 화면·주소·고객사명은 공개하지 않으며, 카드 이미지는 실제 운영 화면을 재현한 것으로 사내 데이터를 포함하지 않습니다.',
 };
 
@@ -787,10 +797,18 @@ const ABOUT = {
   proof: { h: '외주 대신 직접. 결과는 경영진에 직접 보고.',
            p: '전사 안전관리 디지털 전환을 주도했고, 외주·SaaS 대비 절감 효과를 경영진에 보고해 인정받았습니다.' },
   aiFlow: [
-    { b: '현장의 문제', s: '반복되는 수작업을 말로 설명' },
-    { b: 'AI 설계 · 코드 초안', s: '구조 제안 → 코드 생성 → 수정 반복', ai: true },
-    { b: '직접 검증 · 배포 · 운영', s: '테스트, 현장 적용, 개선은 제가' },
+    { b: '문제 발견', s: '현장에서 반복되는 수작업을 찾아 요구사항으로 정리' },
+    { b: '학습 · 설계', s: '데이터 구조 · 권한 · 화면 흐름을 직접 공부해 설계' },
+    { b: 'AI 협업', s: '설계를 바탕으로 코드 초안 · 디버깅 · 리팩토링을 함께', ai: true },
+    { b: '검증 · 배포', s: '실데이터 테스트, 현장 적용은 제가 직접' },
+    { b: '운영 · 개선', s: '불편이 나오면 그날 고치고 다음 날 다시 쓰게' },
   ],
+  /* 벤토 '학습' 타일 — 직접 공부해서 익힌 것들. 과장 없이 실제 익힌 항목만 적습니다. */
+  learning: {
+    h: 'AI로 뚝딱 만든 게 아닙니다',
+    p: '문서를 읽고, 만들어 보고, 깨뜨려 보며 익혔습니다. 구조를 이해하지 못하면 AI가 낸 코드를 검증할 수 없기 때문입니다.',
+    items: ['HTML · CSS · JavaScript', 'Google Apps Script · Sheets 구조 설계', 'Python (openpyxl · playwright · win32com)', 'REST API 연동 (기상청 · 다우오피스 · Gemini)', 'Windows 자동화 · 작업 스케줄러', '역할 기반 권한 · 데이터 보안 설계'],
+  },
 };
 
 /* ── 5. Ch.01 문제 카드 (3개) ──────────────────────────────────────────── */
@@ -847,10 +865,10 @@ const NOTES = [
 
 /* ── 9. Ch.05 일하는 방식 (4단계) ──────────────────────────────────────── */
 const WAYS = [
-  { n: '01', h: '현장에서 문제를 찾는다', p: '안전환경 담당으로 매일 현장과 사무를 오갑니다. 어디서 시간이 새는지, 누가 같은 일을 반복하는지 보고서보다 먼저 눈에 들어옵니다.' },
-  { n: '02', h: 'AI와 함께 설계한다', p: '문제를 말로 설명하면 AI가 구조와 코드 초안을 냅니다. 사용자가 곧 설계자라서, 화면이 실제 업무 흐름 그대로 나옵니다.' },
-  { n: '03', h: '있는 도구로 즉시 만든다', p: '회사가 이미 쓰는 도구 위에 올립니다. 신규 솔루션 결재도, 구독료도 없이 다음 주부터 현장에서 씁니다.' },
-  { n: '04', h: '검증하고, 운영하며 고친다', p: '테스트 · 배포 · 운영은 제 몫입니다. 불편하다는 말이 나오면 그날 고치고, 다음 날 다시 쓰게 만듭니다.' },
+  { n: '01', h: '현장에서 문제를 찾는다', p: '환경안전 담당으로 매일 현장과 사무를 오갑니다. 어디서 시간이 새는지, 누가 같은 일을 반복하는지 보고서보다 먼저 눈에 들어옵니다.' },
+  { n: '02', h: '먼저 공부하고, 직접 설계한다', p: '데이터 구조 · 권한 · 화면 흐름은 제가 잡습니다. 구조를 모르면 AI가 낸 코드가 맞는지 판단할 수 없기 때문에, 필요한 기술은 문서와 실습으로 먼저 익혔습니다.' },
+  { n: '03', h: 'AI는 협업 도구로 쓴다', p: '설계가 서면 코드 초안 · 디버깅 · 리팩토링을 AI와 함께 합니다. 회사가 이미 쓰는 도구 위에 올려 결재도, 구독료도 없이 다음 주부터 씁니다.' },
+  { n: '04', h: '검증하고, 운영하며 고친다', p: '실데이터 테스트 · 배포 · 운영은 제 몫입니다. 불편하다는 말이 나오면 그날 고치고, 다음 날 다시 쓰게 만듭니다.' },
 ];
 
 /* ── 10. 기술 스택 ─────────────────────────────────────────────────────── */
@@ -908,7 +926,7 @@ const CONTACT = [
       <div class="prompt reveal" id="prompt">
         <div class="p-head"><i></i><span>citizen-dev · 사내 시스템 생성</span><span id="pCount"></span></div>
         <div class="p-in"><span class="pr">&gt;</span><span class="txt" id="pTxt"></span></div>
-        <div class="p-think" id="pThink"><i></i><i></i><i></i>설계 · 구축 · 검증 중</div>
+        <div class="p-think" id="pThink"><i></i><i></i><i></i>설계 · 구축 · 검증 중 — 직접</div>
         <div class="p-out" id="pOut"><div class="ic">✓</div><div><div class="t" id="pOutT"></div><div class="m" id="pOutM"></div></div><span class="tag" id="pOutTag"></span></div>
       </div>
       <div class="who reveal" id="whoTags"></div>
@@ -1086,9 +1104,12 @@ const CONTACT = [
     '<div class="tile t-nums reveal" style="transition-delay:80ms">' + NUMS.map((f,i) =>
       '<div class="nm"><div class="n ' + (i === 3 ? '' : 'gt') + '"' + (i === 3 ? ' style="color:var(--ok)"' : '') + '>' +
       '<span data-count="' + f.n + '" data-dec="' + f.d + '">0</span><small>' + f.u + '</small></div><div class="k">' + esc(f.k) + '</div></div>').join('') + '</div>' +
-    '<div class="tile t-ai reveal" style="transition-delay:120ms"><div class="lb">HOW IT WORKS · AI 협업</div><div class="flow">' +
+    '<div class="tile t-ai reveal" style="transition-delay:120ms"><div class="lb">HOW IT WORKS · 5 STEPS</div><div class="flow">' +
       ABOUT.aiFlow.map((f,i) => (i ? '<span class="ar"></span>' : '') +
         '<div class="fb' + (f.ai ? ' ai' : '') + '"><b>' + esc(f.b) + '</b><span>' + esc(f.s) + '</span></div>').join('') + '</div></div>' +
+    '<div class="tile t-learn reveal" style="transition-delay:160ms"><div class="lb">LEARNING · 직접 익힌 것</div>' +
+      '<h3>' + esc(ABOUT.learning.h) + '</h3><p>' + esc(ABOUT.learning.p) + '</p><ul>' +
+      ABOUT.learning.items.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
     '<div class="tile t-sites reveal" style="transition-delay:160ms"><div class="lb">SITES · 해외 4개국</div><ul>' +
       ABOUT.sites.map(s => '<li>' + s.f + ' ' + esc(s.n) + '<em>' + esc(s.s) + '</em></li>').join('') + '</ul></div>' +
     '<div class="tile t-proof reveal" style="transition-delay:200ms"><div class="lb">RECOGNITION</div><h3>' + esc(ABOUT.proof.h) + '</h3><p>' + esc(ABOUT.proof.p) + '</p></div>' +
@@ -1106,7 +1127,7 @@ const CONTACT = [
   const BADGE = { live: '🔒 사내 운영 중 (비공개)', soon: '🚀 도입 예정' };
   $('grid').innerHTML = projects.map((p, i) =>
     '<article class="card reveal" data-cat="' + p.cat + '" style="transition-delay:' + (i % 3) * 80 + 'ms"><span class="spot"></span>' +
-      '<div class="shot"><div class="ph">SCREENSHOT</div><img src="' + esc(p.img) + '" alt="' + esc(p.title) + ' 화면" loading="lazy">' +
+      '<div class="shot"><div class="ph"></div><img src="' + esc(p.img) + '" alt="' + esc(p.title) + ' 화면" decoding="async"' + (i < 6 ? ' fetchpriority="high"' : ' loading="lazy"') + '>' +
         '<span class="lock' + (p.status === 'soon' ? ' soon' : '') + '">' + BADGE[p.status] + '</span>' +
         (REPRO_BADGE ? '<span class="repro">재현 화면</span>' : '') + '</div>' +
       '<div class="card-body"><div class="cat gt">' + esc((CATEGORIES.find(c => c.key === p.cat) || {}).label || '') + '</div>' +
