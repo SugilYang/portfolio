@@ -317,7 +317,10 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .card-body{padding:26px 24px 28px; display:flex; flex-direction:column; flex:1; position:relative; z-index:2}
 .cat{font-size:11.5px; font-weight:700; letter-spacing:.04em; margin-bottom:12px}
 .card h3{font-size:18.5px; margin:0 0 11px; letter-spacing:-.035em; font-weight:700; line-height:1.45}
-.card .desc{color:var(--text-2); font-size:14.5px; line-height:1.8; margin:0 0 20px; flex:1}
+.card .desc{color:var(--text-2); font-size:14.5px; line-height:1.8; margin:0 0 14px}
+.feat{list-style:none; margin:0 0 18px; padding:0; display:flex; flex-direction:column; gap:6px; flex:1}
+.feat li{font-size:13px; color:var(--text-2); line-height:1.5; padding-left:16px; position:relative}
+.feat li::before{content:""; position:absolute; left:0; top:.55em; width:7px; height:7px; border-radius:50%; background:var(--grad)}
 .impact{background:linear-gradient(135deg,rgba(16,185,129,.10),rgba(34,211,238,.08)); border:1px solid rgba(16,185,129,.26);
   border-radius:var(--r-md); padding:14px 16px; margin-bottom:18px}
 .impact .lb{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; color:var(--ok); font-weight:700; margin-bottom:6px}
@@ -458,6 +461,7 @@ footer{border-top:1px solid var(--line); padding:38px 0 52px; color:var(--muted)
  *              tv(화면 송출) / radar(위치) / lanes(다단계 진행) / donut(비율)
  *              launcher(런처) / game(게임)
  *              → img 에 실제 스크린샷이 있으면 그림 대신 스크린샷이 표시됩니다.
+ *   features : 카드에 점으로 나열되는 주요 기능. 3~5개가 적당합니다.
  *   desc     : 무엇을 하는 시스템인지 2~3줄 설명
  *   impact   : ★핵심★ 도입 효과 한 줄. 카드 안 초록 박스에 표시됩니다.
  *              (지금 값은 초안입니다. 실제 수치로 꼭 검토·수정하세요)
@@ -544,6 +548,7 @@ const projects = [
   {
     cat: 'safety',
     title: 'LOTO 현장안전준수필증 시스템',
+    features: ['사용자앱 · 관리자앱 분리', '신청 → 승인 → 발급 → 해제 워크플로우', '6종 HTML 자동 메일 (통일 디자인)', '외주 대비 비용절감 경영진 보고'],
     vis: 'flow',
     desc: 'LOTO(잠금·표지) 절차를 기반으로 한 현장 안전 인증 플랫폼. 사용자앱과 관리자앱을 나누고, 신청부터 승인·발급·통보까지 6종 자동 메일이 통일된 디자인으로 나갑니다.',
     impact: '종이 필증과 수기 대장을 없앴습니다. 발급 리드타임 최대 3일 → 당일 처리. 외주 대비 절감 효과를 경영진에 직접 보고했습니다.',
@@ -556,8 +561,9 @@ const projects = [
   {
     cat: 'safety',
     title: '안전신문고 (사진 기반 위험요소 신고)',
+    features: ['현장 사진 촬영 업로드', 'Gemini AI 사진 분석 → 신고서 개조식 자동 작성', '위험 유형 · 조치 요청 자동 분류'],
     vis: 'photo',
-    desc: '작업자가 현장에서 위험요소를 찍어 올리면 신고서 항목이 개조식으로 자동 정리됩니다. 글을 쓰기 어려운 현장에서도 사진 한 장으로 신고가 끝납니다.',
+    desc: '작업자가 현장에서 위험요소를 찍어 올리면 Gemini AI가 사진을 분석해 신고서 항목을 개조식으로 자동 작성합니다. 글을 쓰기 어려운 현장에서도 사진 한 장으로 신고가 끝납니다.',
     impact: '신고서 작성 1건 15분 → 3분. 글쓰기 부담이 사라지면서 현장 신고 참여가 늘었습니다.',
     hours: 60,
     est: 2000,
@@ -568,6 +574,7 @@ const projects = [
   {
     cat: 'safety',
     title: '체감온도(열스트레스) 모니터링',
+    features: ['기상청 초단기실황 API 30분 주기 수집', '현장 TV 대시보드', '안전포털 위젯', '폭염 단계별 자동 색상 · 권고 조치'],
     vis: 'gauge',
     desc: '기상청 초단기실황 API를 30분 주기로 수집해 현장 TV 대시보드와 안전포털 위젯에 실시간 표시합니다. 폭염 단계가 바뀌면 화면 색이 함께 바뀝니다.',
     impact: '폭염기마다 사람이 확인해 게시하던 업무가 사라졌습니다. 30분 주기 무인 갱신으로 연 약 80시간 절감.',
@@ -580,8 +587,9 @@ const projects = [
   {
     cat: 'safety',
     title: '안전 카드뉴스 자동생성기',
+    features: ['산업재해 뉴스 RSS 수집', 'Gemini 요약 → 1080×1080 카드뉴스 자동 생성', '중복 기사 자동 제외', '매일 전사 자동 공유'],
     vis: 'cards',
-    desc: '산업재해 관련 뉴스를 RSS로 매일 수집해 1080×1080 카드뉴스 이미지로 만들어 전사에 공유합니다. 이미 나간 기사는 자동으로 걸러집니다.',
+    desc: '산업재해 관련 뉴스를 RSS로 매일 수집하고 Gemini로 요약해 1080×1080 카드뉴스 이미지를 자동 생성, 전사에 공유합니다. 이미 나간 기사는 자동으로 걸러집니다.',
     impact: '안전 게시물 제작 30분/일 → 0분. 담당자가 자리를 비워도 매일 공유가 끊기지 않습니다.',
     hours: 125,
     est: 1500,
@@ -592,6 +600,7 @@ const projects = [
   {
     cat: 'safety',
     title: 'TBM (작업 전 안전미팅) 앱',
+    features: ['국내 / 해외 2단계 토글', '해외 7개 사이트 지원', '사진 · 기록 Drive 자동 분류 저장', '참석자 확인 · 서명'],
     vis: 'check',
     desc: '국내/해외 2단계 토글로 해외 7개 사이트를 지원합니다. 미팅 사진과 기록은 Drive에 사이트·날짜별로 자동 분류 저장됩니다.',
     impact: '기록·사진 정리 수작업이 사라져 주 2시간 절감. 해외 7개 사이트가 같은 양식으로 통일됐습니다.',
@@ -604,6 +613,7 @@ const projects = [
   {
     cat: 'safety',
     title: '화학물질 안전카드 앱',
+    features: ['취급 물질별 비상대응 절차', '5탭 안전카드 (유해성 · 보호구 · 취급 · 폐기)', '구매 전 체크리스트', 'MSDS 규제 대응'],
     vis: 'hazard',
     desc: '취급 화학물질별 비상대응 절차, 5개 탭 안전카드, 구매 전 체크리스트를 담은 모바일 앱. MSDS 규제 대응용으로 만들었습니다.',
     impact: '캐비닛에서 MSDS를 찾던 과정을 없앴습니다. 비상 시 대응 정보를 현장에서 즉시 확인합니다.',
@@ -616,6 +626,7 @@ const projects = [
   {
     cat: 'safety',
     title: '계측기 교정관리 시스템',
+    features: ['계측기 71대 대장 · 교정 주기 관리', '대여 신청 → 승인 → 수령 → 반납', 'D-60 / 30 / 14 / 7 자동 알림', '사용자 · 관리자 역할 분리', '다우오피스 OpenAPI 알림 연동'],
     vis: 'calendar',
     desc: '계측기 71대의 대여(신청 → 승인 → 수령 → 반납)와 교정 주기를 한 곳에서 관리합니다. 사용자 화면과 관리자 화면을 역할별로 분리했습니다.',
     impact: '수기 대장을 없애고 D-60/30/14/7 자동 알림을 붙였습니다. 계측기 71대 교정 만료 누락 0건.',
@@ -628,6 +639,7 @@ const projects = [
   {
     cat: 'safety',
     title: '위험성평가 · 설비점검 앱',
+    features: ['공기압축기 일상점검 앱', '한국 공휴일 · 대체공휴일 자동 계산', 'PDF 점검 보고서 생성', 'localStorage 오프라인 기록'],
     vis: 'clipboard',
     desc: '공기압축기 점검 앱을 비롯한 현장 점검 도구 모음. 한국 공휴일과 대체공휴일을 자동 계산해 점검 주기를 잡고, 결과를 PDF 보고서로 바로 뽑습니다.',
     impact: '점검표 출력·보관이 사라지고, 공휴일 착오로 인한 점검 주기 오류가 없어졌습니다.',
@@ -640,6 +652,7 @@ const projects = [
   {
     cat: 'auto',
     title: '근태 보고 자동화 파이프라인',
+    features: ['수집 → 가공 → 보고서 3단계 스크립트', '원본 무수정 DRY_RUN 원칙', '조직개편 자동 감지', '특이자 자동 분류'],
     vis: 'pipeline',
     desc: '수집 → 가공 → 보고서 3단계 스크립트로 일일 인사 근태 보고를 자동화했습니다. 원본 파일은 절대 수정하지 않는 DRY_RUN 원칙, 조직개편 자동 감지, 특이자 자동 분류를 넣었습니다.',
     impact: '일일 보고서 작성 60분 → 3분. 연 약 250시간 절감, 원본 무수정 원칙으로 데이터 사고 0건.',
@@ -652,6 +665,7 @@ const projects = [
   {
     cat: 'auto',
     title: '인력현황표 자동생성',
+    features: ['공유폴더 최신 명부 자동 탐지', '부서 × 직급 자동 매핑', '전월 대비 변동 부서 자동 하이라이트'],
     vis: 'table',
     desc: '네트워크 공유폴더에서 최신 명부를 자동으로 찾아 부서별 · 직급별 표로 매핑합니다. 전월 대비 변동이 있는 부서는 자동으로 표시됩니다.',
     impact: '수기 집계 3시간 → 5분. 부서 · 직급 매핑 실수로 인한 재작업이 없어졌습니다.',
@@ -664,6 +678,7 @@ const projects = [
   {
     cat: 'auto',
     title: '부서 근태기입 자동화 (.exe)',
+    features: ['ERP 데이터 기반 주간 근태표 자동 기입', '해외출장 · 직출직퇴 · 연차 우선순위 규칙', '1,774건 실데이터 검증 완료', '8탭 HTML 매뉴얼 동봉', '단일 실행 파일(.exe) 배포'],
     vis: 'window',
     desc: 'ERP 데이터를 읽어 주간 근태표를 자동 기입하는 실행 파일. 해외출장 · 직출직퇴 · 연차의 우선순위 규칙을 처리하고, 8탭 HTML 매뉴얼을 함께 배포했습니다.',
     impact: '주간 근태표 기입 1시간 → 5분. 1,774건 실데이터로 검증을 마쳤습니다.',
@@ -676,6 +691,7 @@ const projects = [
   {
     cat: 'auto',
     title: 'TV 자동재생 시스템',
+    features: ['인트라넷 게시판 30분 폴링', '새 PPT 공지 자동 다운로드', '전체화면 슬라이드쇼 재생', 'Windows 작업 스케줄러 무인 운영'],
     vis: 'tv',
     desc: '사내 인트라넷 게시판을 30분마다 확인해 새 PPT 공지를 자동으로 내려받고 전체화면 슬라이드쇼로 재생합니다. 사람 없이 계속 돌아갑니다.',
     impact: '게시물이 바뀔 때마다 담당자가 TV 앞으로 가던 일을 없앴습니다. 일 15분 × 연 250일 절감.',
@@ -688,6 +704,7 @@ const projects = [
   {
     cat: 'app',
     title: 'GPS 출퇴근 앱',
+    features: ['반경 500m 위치 인증', '해외 4개국 시간대 자동 감지', '기기 잠금 — 대리 체크 차단'],
     vis: 'radar',
     desc: '반경 500m 위치 인증으로 출퇴근을 체크합니다. 미국·폴란드·헝가리·중국 사이트의 시간대를 자동으로 감지하고, 기기 잠금으로 대리 체크를 막습니다.',
     impact: '해외 4개국 시차를 자동 처리해 출퇴근 기록 정정 요청이 줄었습니다.',
@@ -700,6 +717,7 @@ const projects = [
   {
     cat: 'app',
     title: '해외물류 관리 시스템',
+    features: ['다부서 병렬 단계 처리', '불필요 단계 스킵', '건별 진행현황 추적'],
     vis: 'lanes',
     desc: '여러 부서가 동시에 진행하는 단계를 병렬로 처리하고, 필요 없는 단계는 건너뛸 수 있습니다. 현재 어느 단계에 있는지 한 화면에서 추적합니다.',
     impact: '진행 상황을 묻는 부서 간 전화·메일이 줄었습니다. 단계별 담당과 지연 구간이 그대로 보입니다.',
@@ -712,8 +730,9 @@ const projects = [
   {
     cat: 'app',
     title: '건강 한 끼 도우미',
+    features: ['AI 식단 분석 · 칼로리 코칭', '한국인 영양섭취기준 기반', '성별 · 연령별 목표 자동 산정'],
     vis: 'donut',
-    desc: '식단을 기록하면 칼로리와 영양을 코칭해 줍니다. 한국인 영양섭취기준을 바탕으로 성별·연령별 목표치를 자동 산정합니다.',
+    desc: '식단을 기록하면 AI가 분석해 칼로리와 영양을 코칭합니다. 한국인 영양섭취기준을 바탕으로 성별 · 연령별 목표치를 자동 산정합니다.',
     impact: '구성원 건강관리 도구를 별도 구독 서비스 없이 사내에서 제공합니다.',
     hours: 0,
     est: 1200,
@@ -724,6 +743,7 @@ const projects = [
   {
     cat: 'app',
     title: '안전포털 (통합 허브)',
+    features: ['안전 앱 통합 카드형 런처', '체감온도 위젯 내장', '단일 진입점'],
     vis: 'launcher',
     desc: '흩어져 있던 안전 관련 앱을 카드형 런처 하나로 모았습니다. 체감온도 위젯이 첫 화면에 붙어 있습니다.',
     impact: '앱 주소를 찾아 헤매던 과정을 없앴습니다. 진입점이 하나로 정리되면서 현장 사용률이 올랐습니다.',
@@ -736,6 +756,7 @@ const projects = [
   {
     cat: 'safety',
     title: '내방객 방문 신청 시스템',
+    features: ['사전 방문 신청 · 담당자 승인', '모바일 QR 출입증 자동 발송', '안전교육 동의 · 차량 등록', '방문 이력 자동 기록'],
     vis: 'flow',
     desc: '사전 방문 신청부터 담당자 승인, 모바일 QR 출입증 발급, 안전교육 동의, 차량 등록까지 한 흐름으로 처리합니다. 방문 이력이 자동으로 남습니다.',
     impact: '방문객 대장 수기 작성과 정문 대기를 없앴습니다. 승인 즉시 QR 출입증이 발송되고, 안전교육 동의 누락이 원천 차단됩니다.',
@@ -1132,6 +1153,7 @@ const CONTACT = [
         (REPRO_BADGE ? '<span class="repro">재현 화면</span>' : '') + '</div>' +
       '<div class="card-body"><div class="cat gt">' + esc((CATEGORIES.find(c => c.key === p.cat) || {}).label || '') + '</div>' +
         '<h3>' + esc(p.title) + '</h3><p class="desc">' + esc(p.desc) + '</p>' +
+        (p.features && p.features.length ? '<ul class="feat">' + p.features.map(f => '<li>' + esc(f) + '</li>').join('') + '</ul>' : '') +
         (p.impact ? '<div class="impact"><div class="lb">IMPACT</div><p>' + esc(p.impact) + '</p></div>' : '') +
         '<div class="tags">' + p.stack.map(s => '<span>' + esc(s) + '</span>').join('') + '</div></div></article>').join('');
   $('filters').innerHTML = CATEGORIES.map((c, i) => {
