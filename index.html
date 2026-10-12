@@ -472,6 +472,7 @@ footer{border-top:1px solid var(--line); padding:38px 0 52px; color:var(--muted)
  *              → 소형 800 / 중형 2000 / 대형 3500 을 기준으로 잡았습니다.
  *   stack    : 사용 기술 뱃지. 배열에 문자열을 넣으면 그대로 표시됩니다.
  *   status   : 'live'  → '🔒 사내 운영 중 (비공개)' 뱃지
+ *              'dev'   → '🛠 개발 중' 뱃지 (만드는 중 — 합계에서 제외)
  *              'pilot' → '🧪 시범 운영' 뱃지 (구축 완료, 정식 도입 전 — 합계에서 제외)
  *              'soon'  → '🚀 도입 예정' 뱃지 (아직 운영 전 — 합계에서 제외)
  *              → 히어로·에필로그의 '운영 중인 시스템' 개수와 절감 시간 · 환산 구축비 합계는
@@ -801,11 +802,11 @@ const projects = [
     vis: 'table',
     features: ['출장자 명부 (여권 · 영문명 · 직원/협력사 구분)', '출장 기록 · 사이트 마스터 (국가 · 도시 · 프로젝트)', '국가별 비자 기준표 (ESTA · B1/B2 · 셰겐 · M비자 · eTA 등 7종)', '누적 체류일 계산 · 경고 일수 도달 시 표시'],
     desc: '해외 사이트 출장자의 출국 · 귀국 · 체류일을 기록하고, 국가별 비자 기준에 따라 누적 체류일이 경고선에 가까워지면 표시합니다.',
-    impact: '시범 운영 — 비자 체류일 초과를 사람이 계산하던 위험을 시스템이 대신 계산합니다.',
+    impact: '개발 중 — 비자 체류일 초과를 사람이 계산하던 위험을 시스템이 대신 계산하는 것이 목표입니다.',
     hours: 0,
     est: 2000,
     stack: ['HTML', 'Apps Script', 'Sheets'],
-    status: 'pilot',
+    status: 'dev',
     img: 'assets/shots/trip.jpg',
   },
 ];
@@ -1188,7 +1189,7 @@ const CONTACT = [
     '<div class="step reveal"><div class="yr">' + esc(s.yr) + '</div><h3>' + esc(s.h) + '</h3><p>' + esc(s.p) + '</p></div>').join(''));
 
   /* ---------- Ch.03 프로젝트 ---------- */
-  const BADGE = { live: '🔒 사내 운영 중 (비공개)', pilot: '🧪 시범 운영', soon: '🚀 도입 예정' };
+  const BADGE = { live: '🔒 사내 운영 중 (비공개)', dev: '🛠 개발 중', pilot: '🧪 시범 운영', soon: '🚀 도입 예정' };
   $('grid').innerHTML = projects.map((p, i) =>
     '<article class="card reveal" data-cat="' + p.cat + '" style="transition-delay:' + (i % 3) * 80 + 'ms"><span class="spot"></span>' +
       '<div class="shot"><div class="ph"></div><img src="' + esc(p.img) + '" alt="' + esc(p.title) + ' 화면" decoding="async"' + (i < 6 ? ' fetchpriority="high"' : ' loading="lazy"') + '>' +
