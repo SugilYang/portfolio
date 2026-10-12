@@ -471,8 +471,9 @@ footer{border-top:1px solid var(--line); padding:38px 0 52px; color:var(--muted)
  *              → Ch.04 '외주 환산 구축비' 합계가 이 값들의 합으로 자동 계산됩니다.
  *              → 소형 800 / 중형 2000 / 대형 3500 을 기준으로 잡았습니다.
  *   stack    : 사용 기술 뱃지. 배열에 문자열을 넣으면 그대로 표시됩니다.
- *   status   : 'live' → '🔒 사내 운영 중 (비공개)' 뱃지
- *              'soon' → '🚀 도입 예정' 뱃지 (아직 운영 전이라 아래 합계에서 제외됩니다)
+ *   status   : 'live'  → '🔒 사내 운영 중 (비공개)' 뱃지
+ *              'pilot' → '🧪 시범 운영' 뱃지 (구축 완료, 정식 도입 전 — 합계에서 제외)
+ *              'soon'  → '🚀 도입 예정' 뱃지 (아직 운영 전 — 합계에서 제외)
  *              → 히어로·에필로그의 '운영 중인 시스템' 개수와 절감 시간 · 환산 구축비 합계는
  *                'live' 인 프로젝트만 더합니다. 도입이 끝나면 'live' 로 바꾸세요.
  *   img      : 카드 상단 이미지 경로. assets/shots/ 폴더에 들어 있습니다.
@@ -494,9 +495,9 @@ const PROFILE = {
   // 첫 화면 큰 제목. 앞부분은 고정, 뒷부분은 아래 rotate 문구가 타이핑되며 바뀝니다.
   titleFixed: '문제를 말하면,',
   rotate: ['시스템이 됩니다.', '앱이 됩니다.', '자동화가 됩니다.', '60분이 5분이 됩니다.'],
-  sub: '개발자가 아닙니다. 환경안전 담당으로 현장을 돌며 발견한 반복을, 직접 공부해 익힌 기술 위에 AI를 더해 시스템으로 만들어 운영합니다. 외주 없이, 추가 비용 없이, 지금도 17개가 돌아갑니다.',
+  sub: '개발자가 아닙니다. 환경안전 담당으로 현장을 돌며 발견한 반복을, 직접 공부해 익힌 기술 위에 AI를 더해 시스템으로 만들어 운영합니다. 외주 없이, 추가 비용 없이, 지금도 {{n}}개가 돌아갑니다.',
   // 첫 화면 하단 태그
-  tags: ['비개발 직군', '독학으로 익힌 개발', 'AI 협업', '사내 시스템 17개 운영', '해외 4개국 사이트 지원', '구축비 0원'],
+  tags: ['비개발 직군', '독학으로 익힌 개발', 'AI 협업', '사내 시스템 {{n}}개 운영', '해외 4개국 사이트 지원', '구축비 0원'],
   // 한 줄 소개 (벤토 프로필 카드)
   bio: '현장의 문제를 발견하고, 직접 배워서 해결하는 사람. 웹 · Apps Script · Python · API 연동을 문서와 실습으로 익혔고, 그 위에 AI를 협업 도구로 씁니다. 전사 안전관리 디지털 전환을 주도했고, 외주 · SaaS 대비 절감 효과를 경영진에 직접 보고했습니다.',
 };
@@ -511,6 +512,8 @@ const DEMOS = [
     out: '근태 보고 자동화 파이프라인', meta: '수집 → 가공 → 보고서 3단계 · 60분 → 3분', tag: 'Python + openpyxl' },
   { ask: '폭염 때 현장 체감온도를 사람이 확인해서 올리고 있어.',
     out: '체감온도 모니터링 대시보드', meta: '기상청 API 30분 주기 · TV + 포털 위젯 · 무인 운영', tag: '기상청 API + GAS' },
+  { ask: '부서별 주간 공수를 엑셀로 모아서 결재받는 게 매주 반복돼.',
+    out: '주간 공수 입력 · 결재 시스템', meta: '입력 → 상신 → 승인 → 서명 합성 PNG 자동 생성 · 2주 만에 890건', tag: 'Apps Script + Drive' },
   { ask: 'LOTO 필증이 종이라 발급까지 3일 걸리고 찾을 수도 없어.',
     out: 'LOTO 현장안전준수필증 시스템', meta: '사용자앱 + 관리자앱 + 6종 자동 메일 · 당일 발급', tag: 'GAS + GitHub Pages' },
 ];
@@ -574,7 +577,7 @@ const projects = [
   {
     cat: 'safety',
     title: '체감온도(열스트레스) 모니터링',
-    features: ['기상청 초단기실황 API 30분 주기 수집', '현장 TV 대시보드', '안전포털 위젯', '폭염 단계별 자동 색상 · 권고 조치'],
+    features: ['기상청 초단기실황 API 30분 주기 수집', '현장 TV 대시보드 · 안전포털 위젯', '정상 · 관심 · 주의 · 경고 4단계 자동 판정', '폭염기 2개월간 기록 1,200건+ 무인 적재'],
     vis: 'gauge',
     desc: '기상청 초단기실황 API를 30분 주기로 수집해 현장 TV 대시보드와 안전포털 위젯에 실시간 표시합니다. 폭염 단계가 바뀌면 화면 색이 함께 바뀝니다.',
     impact: '폭염기마다 사람이 확인해 게시하던 업무가 사라졌습니다. 30분 주기 무인 갱신으로 연 약 80시간 절감.',
@@ -600,10 +603,10 @@ const projects = [
   {
     cat: 'safety',
     title: 'TBM (작업 전 안전미팅) 앱',
-    features: ['국내 / 해외 2단계 토글', '해외 7개 사이트 지원', '사진 · 기록 Drive 자동 분류 저장', '참석자 확인 · 서명'],
+    features: ['국내 / 해외 2단계 토글', '해외 7개 사이트 지원', '사진 · 기록 Drive 자동 분류 저장', '참석자별 기록 · 교육시간 · 위험요소 태그', '도입 5개월 만에 참석 기록 3,100건+ 적재'],
     vis: 'check',
     desc: '국내/해외 2단계 토글로 해외 7개 사이트를 지원합니다. 미팅 사진과 기록은 Drive에 사이트·날짜별로 자동 분류 저장됩니다.',
-    impact: '기록·사진 정리 수작업이 사라져 주 2시간 절감. 해외 7개 사이트가 같은 양식으로 통일됐습니다.',
+    impact: '기록 · 사진 정리 수작업이 사라져 주 2시간 절감. 5개월간 참석 기록 3,100건 이상이 사람 손 없이 쌓였고, 해외 7개 사이트가 같은 양식으로 통일됐습니다.',
     hours: 104,
     est: 2000,
     stack: ['HTML', 'Apps Script', 'Drive'],
@@ -626,7 +629,7 @@ const projects = [
   {
     cat: 'safety',
     title: '계측기 교정관리 시스템',
-    features: ['계측기 71대 대장 · 교정 주기 관리', '대여 신청 → 승인 → 수령 → 반납', 'D-60 / 30 / 14 / 7 자동 알림', '사용자 · 관리자 역할 분리', '다우오피스 OpenAPI 알림 연동'],
+    features: ['계측기 71대 대장 · 교정 주기 (6 / 12 / 24개월) 관리', '대여 신청 → 승인 → 수령 → 반납 · 반려 사유 기록', 'D-60 / 30 / 14 / 7 자동 알림 (실제 발송 이력 보관)', '대여 금지 품목 · 공휴일 반영', '사용자 · 관리자 역할 분리 · 다우오피스 OpenAPI 연동'],
     vis: 'calendar',
     desc: '계측기 71대의 대여(신청 → 승인 → 수령 → 반납)와 교정 주기를 한 곳에서 관리합니다. 사용자 화면과 관리자 화면을 역할별로 분리했습니다.',
     impact: '수기 대장을 없애고 D-60/30/14/7 자동 알림을 붙였습니다. 계측기 71대 교정 만료 누락 0건.',
@@ -639,9 +642,9 @@ const projects = [
   {
     cat: 'safety',
     title: '위험성평가 · 설비점검 앱',
-    features: ['공기압축기 일상점검 앱', '한국 공휴일 · 대체공휴일 자동 계산', 'PDF 점검 보고서 생성', 'localStorage 오프라인 기록'],
+    features: ['현장 위험 제보 접수 (장소 · 요인 · 개선안 · 사진)', '빈도 × 강도 점수화, 개선 전 · 후 점수 비교', '개선 전 · 후 사진 · 담당자 · 기한 · 완료 추적', '공기압축기 일상점검 — 공휴일 자동 계산 · PDF 보고서'],
     vis: 'clipboard',
-    desc: '공기압축기 점검 앱을 비롯한 현장 점검 도구 모음. 한국 공휴일과 대체공휴일을 자동 계산해 점검 주기를 잡고, 결과를 PDF 보고서로 바로 뽑습니다.',
+    desc: '현장에서 제보된 위험요소를 빈도 × 강도로 점수화하고 개선 전 · 후를 사진과 점수로 비교하는 위험성평가 앱과, 공휴일을 자동 계산해 점검 주기를 잡는 설비점검 앱입니다.',
     impact: '점검표 출력·보관이 사라지고, 공휴일 착오로 인한 점검 주기 오류가 없어졌습니다.',
     hours: 60,
     est: 1000,
@@ -704,7 +707,7 @@ const projects = [
   {
     cat: 'app',
     title: 'GPS 출퇴근 앱',
-    features: ['반경 500m 위치 인증', '해외 4개국 시간대 자동 감지', '기기 잠금 — 대리 체크 차단'],
+    features: ['반경 위치 인증 (사업장 · 출장지별 반경 설정)', '해외 4개국 시간대 자동 감지', '기기 ID 등록 — 대리 체크 차단', '교대 유형별 근무시간 · 지각 자동 판정', '관리자 공지사항 표시'],
     vis: 'radar',
     desc: '반경 500m 위치 인증으로 출퇴근을 체크합니다. 미국·폴란드·헝가리·중국 사이트의 시간대를 자동으로 감지하고, 기기 잠금으로 대리 체크를 막습니다.',
     impact: '해외 4개국 시차를 자동 처리해 출퇴근 기록 정정 요청이 줄었습니다.',
@@ -717,7 +720,7 @@ const projects = [
   {
     cat: 'app',
     title: '해외물류 관리 시스템',
-    features: ['다부서 병렬 단계 처리', '불필요 단계 스킵', '건별 진행현황 추적'],
+    features: ['다부서 병렬 단계 처리', '불필요 단계 스킵', '건별 진행현황 추적', '등록 기기(PC · 모바일) 기반 접근 제어'],
     vis: 'lanes',
     desc: '여러 부서가 동시에 진행하는 단계를 병렬로 처리하고, 필요 없는 단계는 건너뛸 수 있습니다. 현재 어느 단계에 있는지 한 화면에서 추적합니다.',
     impact: '진행 상황을 묻는 부서 간 전화·메일이 줄었습니다. 단계별 담당과 지연 구간이 그대로 보입니다.',
@@ -766,6 +769,45 @@ const projects = [
     status: 'live',
     img: 'assets/shots/visitor.jpg',
   },
+  {
+    cat: 'app',
+    title: '주간 공수 입력 · 결재 시스템',
+    vis: 'flow',
+    features: ['작업자 프로젝트별 일일 공수 입력', '부서장 주 단위 상신 → 결재자 승인 흐름', '승인 시 서명이 합성된 공수표 PNG 자동 생성 · Drive 보관', '공휴일 · 대체공휴일 자동 반영', '역할별 PIN 접근 (작업자 · 부서장 · 관리자)'],
+    desc: '작업자가 프로젝트별 일일 공수를 입력하면 부서장이 주 단위로 상신하고 결재자가 승인합니다. 승인과 동시에 서명이 합성된 주간 공수표 이미지가 생성되어 보관됩니다.',
+    impact: '엑셀로 취합하던 주간 공수 결재를 앱 안에서 끝냈습니다. 도입 2주 만에 입력 890건 · 전 대상 부서 상신 완료.',
+    hours: 200,
+    est: 3500,
+    stack: ['HTML', 'Apps Script', 'Sheets', 'Drive'],
+    status: 'live',
+    img: 'assets/shots/manhour.jpg',
+  },
+  {
+    cat: 'safety',
+    title: '고객사 공사안전 교육 · 규정 검색 앱',
+    vis: 'cards',
+    features: ['협의체 자료를 11장 슬라이드 교육으로 재구성', '규정 원문 23건 · 벌점표 102항목 · One Strike Out 검색', '슬라이드별 최소 체류 시간으로 형식 이수 방지', '이수 기록 · 유효기간 6개월 · 만료 30/7/1일 전 이메일 알림', '개정 45일 이내 항목에 변경됨 배지'],
+    desc: '국내 대형 배터리 제조사 사업장에 출입하는 임직원 · 협력사를 위한 공사안전 교육 앱. 매달 바뀌는 협의체 규정을 슬라이드 교육과 검색 가능한 규정 DB로 묶었습니다.',
+    impact: '수백 장 협의체 자료를 찾아보던 일을 검색 한 번으로. 이수 · 만료 관리가 자동이라 교육 누락으로 인한 출입 제한 위험을 막습니다.',
+    hours: 50,
+    est: 2500,
+    stack: ['HTML', 'Apps Script', 'Sheets', 'Gmail'],
+    status: 'live',
+    img: 'assets/shots/safetyedu.jpg',
+  },
+  {
+    cat: 'app',
+    title: '해외출장자 관리 시스템',
+    vis: 'table',
+    features: ['출장자 명부 (여권 · 영문명 · 직원/협력사 구분)', '출장 기록 · 사이트 마스터 (국가 · 도시 · 프로젝트)', '국가별 비자 기준표 (ESTA · B1/B2 · 셰겐 · M비자 · eTA 등 7종)', '누적 체류일 계산 · 경고 일수 도달 시 표시'],
+    desc: '해외 사이트 출장자의 출국 · 귀국 · 체류일을 기록하고, 국가별 비자 기준에 따라 누적 체류일이 경고선에 가까워지면 표시합니다.',
+    impact: '시범 운영 — 비자 체류일 초과를 사람이 계산하던 위험을 시스템이 대신 계산합니다.',
+    hours: 0,
+    est: 2000,
+    stack: ['HTML', 'Apps Script', 'Sheets'],
+    status: 'pilot',
+    img: 'assets/shots/trip.jpg',
+  },
 ];
 
 /* ── 3-2. 섹션 영상 밴드 ──────────────────────────────────────────────────
@@ -799,7 +841,7 @@ const TEXT = {
   ch6Title: '쓰는 도구',
   ch6Lede : '회사가 이미 보유한 도구 안에서 해결하는 것을 원칙으로 합니다. 새 솔루션 도입 결재나 구독료 없이 다음 주부터 쓸 수 있어야 하기 때문입니다.',
   ch7Title: '반복은, 사람이 할 일이 아닙니다',
-  ch7Lede : '17개를 만들며 배운 것은 기술이 아니라 순서였습니다. 불편하다고 말하는 사람이 있고, 그것을 끝까지 고치는 사람이 있으면 조직은 바뀝니다. 저는 두 번째 역할을 계속하려 합니다. 지금도 다음 문제를 찾고 있습니다.',
+  ch7Lede : '{{n}}개를 만들며 배운 것은 기술이 아니라 순서였습니다. 불편하다고 말하는 사람이 있고, 그것을 끝까지 고치는 사람이 있으면 조직은 바뀝니다. 저는 두 번째 역할을 계속하려 합니다. 지금도 다음 문제를 찾고 있습니다.',
   /* 카드 맨 아래 서명 줄 */
   signName: '양수길',
   signRole: '경영관리팀 · 환경안전 담당',
@@ -1072,8 +1114,9 @@ const CONTACT = [
   $('roleLine').textContent = PROFILE.role;
   $('orgLine').textContent  = '· ' + PROFILE.org;
   $('heroTitle').innerHTML  = esc(PROFILE.titleFixed) + '<br><span class="rot"><b id="rotTxt"></b><span class="caret"></span></span>';
-  $('heroSub').textContent  = PROFILE.sub;
-  $('whoTags').innerHTML    = PROFILE.tags.map(t => '<span>' + esc(t) + '</span>').join('');
+  const N = s => String(s).replace(/\{\{n\}\}/g, sysCount);   // 문구 속 {{n}} 을 운영 개수로 치환
+  $('heroSub').textContent  = N(PROFILE.sub);
+  $('whoTags').innerHTML    = PROFILE.tags.map(t => '<span>' + esc(N(t)) + '</span>').join('');
 
   /* 제목 뒷부분 타이핑 회전 */
   (function rotate(){
@@ -1107,7 +1150,7 @@ const CONTACT = [
   /* ---------- 섹션 문구 ---------- */
   [['p0',T.ch0Title,T.ch0Lede],['p1',T.ch1Title,T.ch1Lede],['p2',T.ch2Title,T.ch2Lede],['p3',T.ch3Title,T.ch3Lede],
    ['p4',T.ch4Title,T.ch4Lede],['p5',T.ch5Title,T.ch5Lede],['p6',T.ch6Title,T.ch6Lede],['p7',T.ch7Title,T.ch7Lede]]
-   .forEach(([k,t,l]) => { $(k+'Title').textContent = t; $(k+'Lede').innerHTML = l; });
+   .forEach(([k,t,l]) => { $(k+'Title').textContent = N(t); $(k+'Lede').innerHTML = N(l); });
   $('disclaimer').textContent = T.disclaimer;
   $('yr').textContent = new Date().getFullYear();
 
@@ -1145,11 +1188,11 @@ const CONTACT = [
     '<div class="step reveal"><div class="yr">' + esc(s.yr) + '</div><h3>' + esc(s.h) + '</h3><p>' + esc(s.p) + '</p></div>').join(''));
 
   /* ---------- Ch.03 프로젝트 ---------- */
-  const BADGE = { live: '🔒 사내 운영 중 (비공개)', soon: '🚀 도입 예정' };
+  const BADGE = { live: '🔒 사내 운영 중 (비공개)', pilot: '🧪 시범 운영', soon: '🚀 도입 예정' };
   $('grid').innerHTML = projects.map((p, i) =>
     '<article class="card reveal" data-cat="' + p.cat + '" style="transition-delay:' + (i % 3) * 80 + 'ms"><span class="spot"></span>' +
       '<div class="shot"><div class="ph"></div><img src="' + esc(p.img) + '" alt="' + esc(p.title) + ' 화면" decoding="async"' + (i < 6 ? ' fetchpriority="high"' : ' loading="lazy"') + '>' +
-        '<span class="lock' + (p.status === 'soon' ? ' soon' : '') + '">' + BADGE[p.status] + '</span>' +
+        '<span class="lock' + (p.status !== 'live' ? ' soon' : '') + '">' + (BADGE[p.status] || BADGE.live) + '</span>' +
         (REPRO_BADGE ? '<span class="repro">재현 화면</span>' : '') + '</div>' +
       '<div class="card-body"><div class="cat gt">' + esc((CATEGORIES.find(c => c.key === p.cat) || {}).label || '') + '</div>' +
         '<h3>' + esc(p.title) + '</h3><p class="desc">' + esc(p.desc) + '</p>' +
