@@ -312,6 +312,8 @@ h1 .caret{display:inline-block; width:.07em; height:.9em; background:var(--c1); 
 .lock{position:absolute; top:13px; right:13px; z-index:2; font-size:11.5px; font-weight:700; background:rgba(255,255,255,.92);
   border:1px solid var(--line); color:var(--text-2); padding:6px 12px; border-radius:100px; backdrop-filter:blur(8px); box-shadow:var(--sh-1)}
 .lock.soon{background:var(--grad); border-color:transparent; color:#fff}
+.lock.pub{background:#0F172A; border-color:transparent; color:#fff; text-decoration:none}
+.lock.pub:hover{background:var(--c1)}
 .repro{position:absolute; left:13px; bottom:13px; z-index:2; font-size:11px; font-weight:600; background:rgba(255,255,255,.88);
   border:1px solid var(--line); color:var(--muted); padding:5px 10px; border-radius:7px; backdrop-filter:blur(8px)}
 .card-body{padding:26px 24px 28px; display:flex; flex-direction:column; flex:1; position:relative; z-index:2}
@@ -475,6 +477,7 @@ footer{border-top:1px solid var(--line); padding:38px 0 52px; color:var(--muted)
  *              'dev'   → '🛠 개발 중' 뱃지 (만드는 중 — 합계에서 제외)
  *              'pilot' → '🧪 시범 운영' 뱃지 (구축 완료, 정식 도입 전 — 합계에서 제외)
  *              'soon'  → '🚀 도입 예정' 뱃지 (아직 운영 전 — 합계에서 제외)
+ *              'public'→ '🌐 공개 운영 중' 뱃지 (개인 프로젝트 — link 를 넣으면 뱃지가 링크가 됩니다. 사내 합계에서 제외)
  *              → 히어로·에필로그의 '운영 중인 시스템' 개수와 절감 시간 · 환산 구축비 합계는
  *                'live' 인 프로젝트만 더합니다. 도입이 끝나면 'live' 로 바꾸세요.
  *   img      : 카드 상단 이미지 경로. assets/shots/ 폴더에 들어 있습니다.
@@ -514,7 +517,7 @@ const DEMOS = [
   { ask: '폭염 때 현장 체감온도를 사람이 확인해서 올리고 있어.',
     out: '체감온도 모니터링 대시보드', meta: '기상청 API 30분 주기 · TV + 포털 위젯 · 무인 운영', tag: '기상청 API + GAS' },
   { ask: '부서별 주간 공수를 엑셀로 모아서 결재받는 게 매주 반복돼.',
-    out: '주간 공수 입력 · 결재 시스템', meta: '입력 → 상신 → 승인 → 서명 합성 PNG 자동 생성 · 2주 만에 890건', tag: 'Apps Script + Drive' },
+    out: '주간 공수 입력 · 결재 시스템', meta: '입력 → 상신 → 승인 → 서명 합성 PNG 자동 생성 · 4주 만에 1,900건', tag: 'Apps Script + Drive' },
   { ask: 'LOTO 필증이 종이라 발급까지 3일 걸리고 찾을 수도 없어.',
     out: 'LOTO 현장안전준수필증 시스템', meta: '사용자앱 + 관리자앱 + 6종 자동 메일 · 당일 발급', tag: 'GAS + GitHub Pages' },
 ];
@@ -545,6 +548,7 @@ const CATEGORIES = [
   { key: 'safety', label: '안전관리 시스템' },
   { key: 'auto',   label: '업무 자동화' },
   { key: 'app',    label: '앱 · 서비스' },
+  { key: 'side',   label: '개인 프로젝트' },
 ];
 
 /* ── 3. 프로젝트 목록 ───────────────────────────────────────────────────── */
@@ -552,7 +556,7 @@ const projects = [
   {
     cat: 'safety',
     title: 'LOTO 현장안전준수필증 시스템',
-    features: ['사용자앱 · 관리자앱 분리', '신청 → 승인 → 발급 → 해제 워크플로우', '6종 HTML 자동 메일 (통일 디자인)', '외주 대비 비용절감 경영진 보고'],
+    features: ['사용자앱 · 관리자앱 분리', '신청 → 승인 → 발급 → 해제 워크플로우', '6종 HTML 자동 메일 (통일 디자인)', '발급 명단 QR 필증 라벨 일괄 인쇄 (임직원 · 협력사 구분)', '외주 대비 비용절감 경영진 보고'],
     vis: 'flow',
     desc: 'LOTO(잠금·표지) 절차를 기반으로 한 현장 안전 인증 플랫폼. 사용자앱과 관리자앱을 나누고, 신청부터 승인·발급·통보까지 6종 자동 메일이 통일된 디자인으로 나갑니다.',
     impact: '종이 필증과 수기 대장을 없앴습니다. 발급 리드타임 최대 3일 → 당일 처리. 외주 대비 절감 효과를 경영진에 직접 보고했습니다.',
@@ -774,9 +778,9 @@ const projects = [
     cat: 'app',
     title: '주간 공수 입력 · 결재 시스템',
     vis: 'flow',
-    features: ['작업자 프로젝트별 일일 공수 입력', '부서장 주 단위 상신 → 결재자 승인 흐름', '승인 시 서명이 합성된 공수표 PNG 자동 생성 · Drive 보관', '공휴일 · 대체공휴일 자동 반영', '역할별 PIN 접근 (작업자 · 부서장 · 관리자)'],
+    features: ['작업자 프로젝트별 일일 공수 입력 · 같은 작업은 여러 날 한 번에 저장', '지난주 기록 그대로 가져오기 · 프로젝트 875건 검색', '부서장 주 단위 상신 → 결재자 승인 흐름', '승인 시 서명이 합성된 공수표 PNG 자동 생성 · Drive 보관', 'ERP 입력용 시트 · 엑셀 다운로드 · 주간보고 메일 · 금요일 미입력 알림', '공휴일 · 대체공휴일 자동 반영, 조직도 기준 부서별 BM · 결재자 지정', '스마트폰 홈 화면 설치(PWA) · 역할별 PIN 접근'],
     desc: '작업자가 프로젝트별 일일 공수를 입력하면 부서장이 주 단위로 상신하고 결재자가 승인합니다. 승인과 동시에 서명이 합성된 주간 공수표 이미지가 생성되어 보관됩니다.',
-    impact: '엑셀로 취합하던 주간 공수 결재를 앱 안에서 끝냈습니다. 도입 2주 만에 입력 890건 · 전 대상 부서 상신 완료.',
+    impact: '엑셀로 취합하던 주간 공수 결재를 앱 안에서 끝냈습니다. 도입 4주 만에 입력 1,900건 · 상신 15건 전건 승인 · 반려 0건.',
     hours: 200,
     est: 3500,
     stack: ['HTML', 'Apps Script', 'Sheets', 'Drive'],
@@ -787,7 +791,7 @@ const projects = [
     cat: 'safety',
     title: '고객사 공사안전 교육 · 규정 검색 앱',
     vis: 'cards',
-    features: ['협의체 자료를 11장 슬라이드 교육으로 재구성', '규정 원문 23건 · 벌점표 102항목 · One Strike Out 검색', '슬라이드별 최소 체류 시간으로 형식 이수 방지', '이수 기록 · 유효기간 6개월 · 만료 30/7/1일 전 이메일 알림', '개정 45일 이내 항목에 변경됨 배지'],
+    features: ['임직원판 · 협력사판 2종 + 관리자 이수 현황 화면', '협의체 자료를 11장 슬라이드 교육으로 재구성', '작업가이드 27건 · 규정 원문 22건 · 벌점표 · One Strike Out 검색', '매달 협의체 자료를 받으면 데이터 파일만 갱신 · 빌드 스크립트로 2종 일괄 생성', '슬라이드별 최소 체류 시간으로 형식 이수 방지', '이수 기록 · 유효기간 6개월 · 만료 30/7/1일 전 이메일 알림', '개정 45일 이내 항목에 변경됨 배지'],
     desc: '국내 대형 배터리 제조사 사업장에 출입하는 임직원 · 협력사를 위한 공사안전 교육 앱. 매달 바뀌는 협의체 규정을 슬라이드 교육과 검색 가능한 규정 DB로 묶었습니다.',
     impact: '수백 장 협의체 자료를 찾아보던 일을 검색 한 번으로. 이수 · 만료 관리가 자동이라 교육 누락으로 인한 출입 제한 위험을 막습니다.',
     hours: 50,
@@ -809,6 +813,59 @@ const projects = [
     status: 'dev',
     img: 'assets/shots/trip.jpg',
   },
+  {
+    cat: 'auto',
+    title: '입고 라벨 AI 판독 → 엑셀 변환',
+    vis: 'cards',
+    features: ['스마트폰 카메라 · 갤러리로 라벨 사진 여러 장 한 번에', 'AI 비전 모델이 품번 · 수량 · 품명 · 공급업체 · 납품일 등 10개 항목 추출', '한 칸씩 밀려 인쇄된 라벨도 값의 순서 · 형식으로 판독', '품번 중복 · 확인 필요 자동 표시, 칸을 눌러 바로 수정', '엑셀 다운로드 · 이메일 전송, 모델 한도 초과 시 자동 대체 모델'],
+    desc: '입고 부품 라벨을 사진으로 찍으면 AI 비전 모델이 항목을 읽어 표에 쌓고, 엑셀로 내려받거나 메일로 보냅니다. 라벨을 보고 손으로 옮겨 적던 입고 등록을 사진 한 장으로 바꿨습니다.',
+    impact: '라벨 한 장 수기 입력 2~3분 → 촬영 후 즉시. 판독 결과는 표에서 바로 고칠 수 있어 오타로 인한 재확인이 사라집니다.',
+    hours: 80,
+    est: 2000,
+    stack: ['HTML', 'Apps Script', 'Gemini API', 'SheetJS'],
+    status: 'live',
+    img: 'assets/shots/label.jpg',
+  },
+  {
+    cat: 'auto',
+    title: '시장 동향 주간 브리핑 자동 발행',
+    vis: 'flow',
+    features: ['고객사 15 · 경쟁사 22개사 감시 — RSS 87개 · 뉴스 검색(한/영) · 공시 수집', '카테고리 · 중요도 A/B/C · 출처 신뢰도 · 태그를 규칙표로 자동 분류', '30일 사안 기억 — 수치 · 일정이 바뀐 경우만 “후속”으로 재수록', '매주 월요일 서버가 혼자 실행 → AI가 후보를 읽고 정제판으로 덮어씀 (실패해도 규칙표판 유지)', '1면 · 지난 호 달력 · 회사별 · 검색 · 주간 종합 페이지 자동 생성 · 메일 발송'],
+    desc: '일일 · 주간 시장동향 보고(PPT · 엑셀)의 틀을 그대로 웹 신문으로 옮겼습니다. 감시 대상과 규칙은 설정 파일 하나로 바꾸고, 수집부터 분류 · 정제 · 지면 생성 · 발행까지 사람 손 없이 돕니다.',
+    impact: '7주 동안 27호 · 378건 자동 수록. 매일 뉴스를 찾아 정리하던 시간이 0이 되고, 바뀐 사안만 후속으로 올라와 읽는 시간도 줄었습니다.',
+    hours: 250,
+    est: 2000,
+    stack: ['Python', 'GitHub Actions', 'RSS', 'Claude', 'GitHub Pages'],
+    status: 'live',
+    img: 'assets/shots/news.jpg',
+  },
+  {
+    cat: 'safety',
+    title: 'Danger Stop (작업중지 발령 시스템)',
+    vis: 'cards',
+    features: ['임직원 · 협력업체 · 방문객 누구나 발령 가능', '추락 · 협착 · 전기 · 화재폭발 · 붕괴낙하 · 유해물질 · 기계 오작동 등 위험 유형 선택', '현장 사진 촬영 · 첨부', '발령 즉시 대표이사 · 안전보건관리책임자 · 안전관리자 · 중대재해 전담위원에게 자동 메일', '작업중지권 법적 보호 안내 · 긴급 시 안전관리자 즉시 연결'],
+    desc: '위험을 본 사람이 그 자리에서 작업중지를 발령하는 앱입니다. 결재나 보고 단계 없이 경영진과 안전관리자에게 동시에 전달되어, 멈추는 결정이 늦어지지 않게 합니다.',
+    impact: '“누구에게 말해야 하나”를 없앴습니다. 발령 → 전달까지 1분 이내, 기록은 자동으로 남습니다.',
+    hours: 20,
+    est: 800,
+    stack: ['HTML', 'EmailJS', 'GitHub Pages'],
+    status: 'live',
+    img: 'assets/shots/dangerstop.jpg',
+  },
+  {
+    cat: 'side',
+    title: '현장노트 — AI 자동 발행 정보 블로그',
+    vis: 'flow',
+    features: ['자격증 · 산업안전 · 사고사례 · 장비공구 · 산업 트렌드 · 현장 생활 6개 섹션', '매일 섹션별 1편, 하루 6편을 AI가 작성 · 게시 (중복 주제 자동 회피 · 시의성 글 1편 포함)', '검색 키워드 전략 규칙 문서로 제목 · 구조 통제', '빌드 봇이 섹션 페이지 · sitemap · RSS · OG 이미지 생성 → IndexNow 즉시 색인 요청', '조회 통계 매일 수집 · 커스텀 도메인'],
+    desc: '제조 · 물류 · 건설 현장에서 일하는 사람을 위한 정보 블로그를 개인 프로젝트로 운영합니다. 글쓰기 규칙을 문서로 만들어 AI에게 맡기고, 빌드 · 배포 · 검색엔진 통보까지 자동화했습니다.',
+    impact: '운영 4주 만에 121편 발행. 사내 시스템과 같은 방법(규칙 설계 → AI 협업 → 자동화)이 밖에서도 통하는지 확인하는 실험장입니다.',
+    hours: 0,
+    est: 0,
+    stack: ['HTML', 'Node.js', 'GitHub Actions', 'Claude', 'IndexNow'],
+    status: 'public',
+    link: 'https://field.ynote.co.kr/',
+    img: 'assets/shots/fieldnote.jpg',
+  },
 ];
 
 /* ── 3-2. 섹션 영상 밴드 ──────────────────────────────────────────────────
@@ -818,7 +875,7 @@ const projects = [
    권장 규격: 960×540, 8초 내외 무한 반복, webm(VP8) 300KB 이하. */
 const BANDS = {
   problem: { k: 'CH. 01 — 문제',  h: '종이와 엑셀이 만든 하루', p: '매일 같은 자리에서 시간이 샜습니다.' },
-  spread : { k: 'CH. 02 — 확산',  h: '하나에서 열여섯으로',     p: '요청은 옆 부서에서 먼저 왔습니다.' },
+  spread : { k: 'CH. 02 — 확산',  h: '하나에서 {{n}}개로',     p: '요청은 옆 부서에서 먼저 왔습니다.' },
   effect : { k: 'CH. 04 — 효과',  h: '60분이 5분이 되는 일',    p: '숫자로 남지 않으면 자동화가 아닙니다.' },
   process: { k: 'CH. 05 — 방식',  h: '배우고, 설계하고, 검증합니다', p: 'AI는 도구. 구조와 판단은 제가. 네 단계가 멈추지 않습니다.' },
   tools  : { k: 'TOOLS — 도구',   h: '회사에 이미 있는 것으로',   p: '새 예산 없이, 다음 주부터 씁니다.' },
@@ -871,7 +928,7 @@ const ABOUT = {
   learning: {
     h: 'AI로 뚝딱 만든 게 아닙니다',
     p: '문서를 읽고, 만들어 보고, 깨뜨려 보며 익혔습니다. 구조를 이해하지 못하면 AI가 낸 코드를 검증할 수 없기 때문입니다.',
-    items: ['HTML · CSS · JavaScript', 'Google Apps Script · Sheets 구조 설계', 'Python (openpyxl · playwright · win32com)', 'REST API 연동 (기상청 · 다우오피스 · Gemini)', 'Windows 자동화 · 작업 스케줄러', '역할 기반 권한 · 데이터 보안 설계'],
+    items: ['HTML · CSS · JavaScript', 'Google Apps Script · Sheets 구조 설계', 'Python (openpyxl · playwright · win32com)', 'REST API 연동 (기상청 · 다우오피스 · Gemini 비전)', 'GitHub Actions 무인 파이프라인', 'Windows 자동화 · 작업 스케줄러', '역할 기반 권한 · 데이터 보안 설계'],
   },
 };
 
@@ -908,6 +965,7 @@ const TIMELINE = [
   { yr: 'STEP 03', h: '현장 도구로 이어지다', p: 'TBM, 화학물질 안전카드, 설비 점검, 계측기 교정관리까지 현장에서 쓰는 도구를 차례로 앱으로 바꿨습니다. 요청이 먼저 들어오기 시작한 시점입니다.' },
   { yr: 'STEP 04', h: '사람 손을 떼다', p: '기상청 API, 뉴스 RSS, 인트라넷 게시판 폴링을 붙여 담당자가 없어도 갱신되는 구조로 만들었습니다. 무인 운영이 기본값이 됐습니다.' },
   { yr: 'STEP 05', h: '하나의 창구로', p: '흩어진 앱을 안전포털로 모으고, 해외 4개국 사이트까지 같은 양식으로 통일했습니다. 지금은 현장이 포털 하나만 기억하면 됩니다.' },
+  { yr: 'STEP 06', h: '안전 밖으로, AI를 안으로', p: '주간 공수 결재, 입고 라벨 AI 판독, 시장 동향 자동 발행까지. 안전관리에서 시작한 방법이 경영 · 구매 · 영업 업무로 번졌고, AI 모델이 시스템 안에서 직접 일하기 시작했습니다.' },
 ];
 
 /* ── 7. Ch.04 Before → After 비교 막대 ─────────────────────────────────── */
@@ -939,8 +997,8 @@ const WAYS = [
 const STACK = [
   { g: 'WEB / APP',        items: ['HTML', 'CSS', 'JavaScript', 'GitHub Pages', '반응형 UI', 'localStorage'] },
   { g: 'BUSINESS SYSTEM',  items: ['Google Apps Script', 'Google Sheets', 'Google Drive', '다우오피스 OpenAPI'] },
-  { g: 'AUTOMATION',       items: ['Python', 'openpyxl', 'playwright', 'win32com', 'PowerShell', 'Windows 작업 스케줄러'] },
-  { g: 'DATA / INTEGRATION', items: ['기상청 공공 API', 'RSS 수집', 'Gemini API', 'HTML 메일 템플릿'] },
+  { g: 'AUTOMATION',       items: ['Python', 'openpyxl', 'playwright', 'win32com', 'PowerShell', 'Windows 작업 스케줄러', 'GitHub Actions'] },
+  { g: 'DATA / INTEGRATION', items: ['기상청 공공 API', 'RSS 수집', 'Gemini API (비전)', 'Claude', 'HTML 메일 템플릿', 'PWA'] },
 ];
 
 /* ── 11. 연락처 ────────────────────────────────────────────────────────── */
@@ -1189,11 +1247,13 @@ const CONTACT = [
     '<div class="step reveal"><div class="yr">' + esc(s.yr) + '</div><h3>' + esc(s.h) + '</h3><p>' + esc(s.p) + '</p></div>').join(''));
 
   /* ---------- Ch.03 프로젝트 ---------- */
-  const BADGE = { live: '🔒 사내 운영 중 (비공개)', dev: '🛠 개발 중', pilot: '🧪 시범 운영', soon: '🚀 도입 예정' };
+  const BADGE = { live: '🔒 사내 운영 중 (비공개)', dev: '🛠 개발 중', pilot: '🧪 시범 운영', soon: '🚀 도입 예정', public: '🌐 공개 운영 중' };
   $('grid').innerHTML = projects.map((p, i) =>
     '<article class="card reveal" data-cat="' + p.cat + '" style="transition-delay:' + (i % 3) * 80 + 'ms"><span class="spot"></span>' +
       '<div class="shot"><div class="ph"></div><img src="' + esc(p.img) + '" alt="' + esc(p.title) + ' 화면" decoding="async"' + (i < 6 ? ' fetchpriority="high"' : ' loading="lazy"') + '>' +
-        '<span class="lock' + (p.status !== 'live' ? ' soon' : '') + '">' + (BADGE[p.status] || BADGE.live) + '</span>' +
+        (p.status === 'public' && p.link
+          ? '<a class="lock pub" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + BADGE.public + ' ↗</a>'
+          : '<span class="lock' + (p.status !== 'live' ? ' soon' : '') + '">' + (BADGE[p.status] || BADGE.live) + '</span>') +
         (REPRO_BADGE ? '<span class="repro">재현 화면</span>' : '') + '</div>' +
       '<div class="card-body"><div class="cat gt">' + esc((CATEGORIES.find(c => c.key === p.cat) || {}).label || '') + '</div>' +
         '<h3>' + esc(p.title) + '</h3><p class="desc">' + esc(p.desc) + '</p>' +
@@ -1274,7 +1334,7 @@ const CONTACT = [
 
   /* ---------- 섹션 영상 밴드 ---------- */
   document.querySelectorAll('.band').forEach(el => {
-    const b = BANDS[el.dataset.band]; if (!b) return;
+    const b = BANDS[el.dataset.band]; if (!b) return; b.h = N(b.h); b.p = N(b.p);
     el.innerHTML = '<img class="poster" src="assets/sec/' + el.dataset.band + '.jpg" alt="" loading="lazy">' +
       '<video muted loop playsinline preload="none" data-src="assets/sec/' + el.dataset.band + '.webm"></video>' +
       '<div class="band-in"><span class="band-k gt">' + esc(b.k) + '</span><h3 class="kin">' + esc(b.h) + '</h3><p class="wipe tx">' + esc(b.p) + '</p></div>';
